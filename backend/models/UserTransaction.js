@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 // This defines the schema for UserTransaction
 const UserTransactionSchema = new mongoose.Schema({
@@ -49,4 +49,5 @@ const UserTransactionSchema = new mongoose.Schema({
 });
 
 // Export the model to be used in routes/controllers
-module.exports = mongoose.model('UserTransaction', UserTransactionSchema);
+const UserTransaction = mongoose.model('UserTransaction', UserTransactionSchema);
+export default UserTransaction;
