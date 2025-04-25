@@ -1,0 +1,28 @@
+{
+  "dependencies": {
+    "body-parser": "^2.2.0",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "mongoose": "^8.13.3"
+  },
+  "type": "module",
+  "name": "final-project-requirements-2gether4ever",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://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@github.com/CMSC-100-2S24-25-U3L/final-project-requirements-2gether4ever.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CMSC-100-2S24-25-U3L/final-project-requirements-2gether4ever/issues"
+  },
+  "homepage": "https://github.com/CMSC-100-2S24-25-U3L/final-project-requirements-2gether4ever#readme"
+}
