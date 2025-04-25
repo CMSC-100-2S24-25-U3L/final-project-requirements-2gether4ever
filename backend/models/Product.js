@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 // model for product data
-const Student = mongoose.model('Student', {
+const Product = mongoose.model('Product', {
     id: Number,
     name: String,
     description: String,
