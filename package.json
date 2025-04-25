@@ -2,7 +2,7 @@
   "name": "final-project-requirements-2gether4ever",
   "version": "1.0.0",
   "description": "A web application developed for the Department of Agriculture (DA) to facilitate direct transactions between farmers and consumers. This e-commerce platform enables customers to shop directly from farmers' inventories, while the DA manages the catalog of products and handles order fulfillment.",
-  "main": "index.js",
+  "main": "backend/server.js",
   "type": "module",
   "scripts": {
     "start": "node backend/server.js",
