@@ -1,12 +1,14 @@
 import mongoose from 'mongoose';
 
-// model for product data
-const Product = mongoose.model('Product', {
-    id: Number,
-    name: String,
-    description: String,
-    type: Number, // 1 = Crop, 2 = Poultry
-    quantity: Number,
-})
+// Schema for product data
+const productSchema = new mongoose.Schema({
+    id: { type: String, required: true }, // Product ID
+    name: { type: String, required: true }, 
+    description: { type: String, required: true }, 
+    type: { type: Number, required: true, enum: [1, 2] }, // Product Type: 1 = Crop, 2 = Poultry
+    quantity: { type: Number, required: true }, 
+});
+
+const Product = mongoose.model('Product', productSchema);
 
 export default Product;
