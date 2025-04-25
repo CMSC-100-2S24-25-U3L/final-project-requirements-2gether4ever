@@ -8,3 +8,5 @@ const Product = mongoose.model('Product', {
     type: Number, // 1 = Crop, 2 = Poultry
     quantity: Number,
 })
+
+export default Product;
