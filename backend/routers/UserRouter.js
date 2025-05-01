@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import express from 'express';
 import User from '../models/UserModel.js'; // Your User model
 import bcrypt from 'bcryptjs'; // For hashing passwords
@@ -60,3 +61,6 @@ router.get('/', async (req, res) => {
 });
 
 export default router;
+=======
+
+>>>>>>> 89fd3c16fa1dd42baa8a63850490da5077547e2d
