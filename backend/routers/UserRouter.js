@@ -1,6 +1,5 @@
-<<<<<<< HEAD
 import express from 'express';
-import User from '../models/UserModel.js'; // Your User model
+import User from '../models/User.js'; // Your User model
 import bcrypt from 'bcryptjs'; // For hashing passwords
 
 const router = express.Router();
@@ -60,7 +59,16 @@ router.get('/', async (req, res) => {
     }
 });
 
-export default router;
-=======
+// GET /user/:id
+router.get('/:id', async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
 
->>>>>>> 89fd3c16fa1dd42baa8a63850490da5077547e2d
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+export default router;
