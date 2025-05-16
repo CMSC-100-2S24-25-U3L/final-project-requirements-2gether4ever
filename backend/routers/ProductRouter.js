@@ -4,6 +4,7 @@ import Product from '../models/Product.js';
 const router = express.Router();
 
 // Add a product to the database
+// Merchant and Admin only
 router.post('/add', async (req, res) => {
   try {
     const { id, name, description, type, quantity, price } = req.body;
