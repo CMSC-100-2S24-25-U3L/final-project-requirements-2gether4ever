@@ -35,3 +35,69 @@ Can cancel unconfirmed orders.
 No registration needed; account is pre-created.
 Can manage product inventory, update prices, and manage product types.
 Can oversee user accounts, order fulfillment, and view sales reports.
+
+
+LIBRARY STRUCTURE
+farm-to-table/
+├── backend/
+│   ├── models/
+│   │   ├── Product.js
+│   │   ├── User.js
+│   │   └── UserTransaction.js
+│   ├── routers/
+│   │   ├── ProductRouter.js
+│   │   ├── UserRouter.js
+│   │   ├── UserTransaction.js
+│   │   └── UserTransactionRouter.js
+│   └── server.js
+│
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   │   ├── api/
+│   │   │   ├── auth.js
+│   │   │   ├── product.js
+│   │   │   └── transaction.js
+│   │   ├── components/
+│   │   │   ├── user/
+│   │   │   │   ├── Cart.css
+│   │   │   │   ├── Cart.jsx
+│   │   │   │   ├── Checkout.jsx
+│   │   │   │   ├── CustomerNavBar.css
+│   │   │   │   ├── CustomerNavBar.jsx
+│   │   │   │   ├── OrderConfirmation.jsx
+│   │   │   │   ├── OrderHistory.jsx
+│   │   │   │   ├── ProductList.css
+│   │   │   │   ├── ProductList.jsx
+│   │   ├── context/
+│   │   │   ├── CartContext.jsx   // Manages login state
+│   │   │   ├── AuthContext.jsx
+│   │   ├── pages/
+│   │   │   ├── admin/
+│   │   │   │   ├── AdminDashboard.jsx
+│   │   │   │   ├── AdminOrders.jsx
+│   │   │   │   ├── AdminProductListings.jsx
+│   │   │   │   ├── AdminSalesReport.jsx
+│   │   │   │   └── AdminUserList.jsx
+│   │   │   ├── user/
+│   │   │   │   ├── Shop.jsx
+│   │   │   │   ├── UserCart.jsx
+│   │   │   │   ├── Checkout.jsx
+│   │   │   │   ├── OrderConfirmation.jsx
+│   │   │   │   ├── OrderHistory.jsx
+│   │   │   │   └── UserHome.jsx
+│   │   │   ├── Login.jsx
+│   │   │   ├── Logout.jsx
+│   │   │   ├── Register.jsx
+│   │   │   ├── requiredPages.md
+│   │   │   └── Unauthorized.jsx
+│   │   ├── routes/
+│   │   │   └── AppRoutes.jsx
+│   │   ├── App.jsx
+│   │   ├── index.css
+│   │   └── main.jsx
+│   ├── .gitignore
+│   ├── App.js
+│   ├── eslint.config.js
+│   ├── index.html
+│   └── index.js

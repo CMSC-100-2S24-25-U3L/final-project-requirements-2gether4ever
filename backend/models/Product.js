@@ -1,13 +1,25 @@
 import mongoose from 'mongoose';
 
-// Schema for product data
 const productSchema = new mongoose.Schema({
-    id: { type: String, required: true }, // Product ID
-    name: { type: String, required: true },
-    description: { type: String, required: true },
-    type: { type: Number, required: true, enum: [1, 2] }, // Product Type: 1 = Crop, 2 = Poultry
-    quantity: { type: Number, required: true },
-    price: { type: Number, required: true },
+  productId: { type: String, required: true },
+  name: { type: String, required: true },
+  description: { type: String, required: true },
+  price: { type: Number, required: true },
+  quantity: { type: Number, required: true },
+  image: { type: String },
+
+  category: {
+    type: String,
+    enum: [
+      'Gulay',
+      'Prutas',
+      'Karne at Itlog',
+      'Bigas at Butil',
+      'Mga Gawa sa Sakahan',
+      'Organik'
+    ],
+    required: true
+  }
 });
 
 const Product = mongoose.model('Product', productSchema);

@@ -2,127 +2,140 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import PrivateRoute from "../components/PrivateRoute";
 
-// import admin (Dept of Agriculture) pages
+// AUTH PAGES
+import Login from "../pages/Login";
+import Register from "../pages/Register";
+import Logout from "../pages/Logout";
+import Unauthorized from "../pages/Unauthorized";
+
+
+// ADMIN PAGES
 import AdminDashboard from "../pages/admin/AdminDashboard";
 import AdminOrders from "../pages/admin/AdminOrders";
-import AdminProductListing from "../pages/admin/AdminProductListings";
+import AdminProductListing from "../pages/admin/AdminProductListing";
 import AdminSalesReport from "../pages/admin/AdminSalesReport";
 import AdminUserList from "../pages/admin/AdminUserList";
 
-// import merchant user pages
-import MerchantDashboard from "../pages/merchant/merchantDashboard";
-import MerchantInventory from "../pages/merchant/MerchantInventory";
-import MerchantOrders from "../pages/merchant/MerchantOrders";
-import MerchantSalesReport from "../pages/merchant/MerchantSalesReport";
-
-// import user pages
-import UserCart from "../pages/user/UserCart";
+// CUSTOMER PAGES
 import UserHome from "../pages/user/UserHome";
-import UserOrders from "../pages/user/userOrders";
-import UserShop from "../pages/user/UserShop";
-import Login from "../pages/Login";
+import ShopPage from "../pages/user/ShopPage";
+import CartPage from "../pages/user/CartPage";
+import CheckoutPage from "../pages/user/CheckoutPage";
+import OrderConfirmationPage from "../pages/user/OrderConfirmationPage";
+import OrderHistoryPage from '../pages/user/OrderHistoryPage';
 
-// import misc pages
-import Logout from "../pages/Logout";
-import Unauthorized from "../pages/Unauthorized";
-import Register from "../pages/Register";
 
 const AppRoutes = () => {
   return (
-    <Router>
-      <Routes>
-        {/* Auth Routes */}
-        <Route path="/login" element={<Login/>}/>
-        <Route path="/register" element={<Register/>}/>
-        {/* Admin Routes */}
-        <Route path="/admin" element={
-          <PrivateRoute allowedRoles={['admin']}>
-            <AdminDashboard />
-          </PrivateRoute>
-        } />
-        <Route path="/admin/orders" element={
-          <PrivateRoute allowedRoles={['admin']}>
-            <AdminOrders />
-          </PrivateRoute>
-        } />
-        <Route path="/admin/products-list" element={
-          <PrivateRoute allowedRoles={['admin']}>
-            <AdminProductListing />
-          </PrivateRoute>
-        } />
-        <Route path="/admin/sales-report" element={
-          <PrivateRoute allowedRoles={['admin']}>
-            <AdminSalesReport />
-          </PrivateRoute>
-        } />
-        <Route path="/admin/users-list" element={
-          <PrivateRoute allowedRoles={['admin']}>
-            <AdminUserList />
-          </PrivateRoute>
-        } />
+    <Routes>
+      {/* Public Landing */}
+      <Route path="/" element={<h1>Welcome to 2gether4ever Customer Portal</h1>} />
 
-        {/* Merchant Routes */}
-        <Route path="/merchant" element={
-          <PrivateRoute allowedRoles={['merchant']}>
-            <MerchantDashboard />
-          </PrivateRoute>
-        } />
-        <Route path="/merchant/inventory" element={
-          <PrivateRoute allowedRoles={['merchant']}>
-            <MerchantInventory />
-          </PrivateRoute>
-        } />
-        <Route path="/merchant/orders" element={
-          <PrivateRoute allowedRoles={['merchant']}>
-            <MerchantOrders />
-          </PrivateRoute>
-        } />
-        <Route path="/merchant/sales-report" element={
-          <PrivateRoute allowedRoles={['merchant']}>
-            <MerchantSalesReport />
-          </PrivateRoute>
-        } />
+      {/* Auth Pages */}
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/logout" element={<Logout />} />
+      <Route path="/unauthorized" element={<Unauthorized />} />
 
-        {/* User Routes */}
-        <Route path="/home" element={
+      {/* Customer Pages */}
+      <Route
+        path="/home"
+        element={
           <PrivateRoute allowedRoles={['Customer']}>
             <UserHome />
           </PrivateRoute>
-        } />
-        <Route path="/cart" element={
+        }
+      />
+
+      <Route
+        path="/shop"
+        element={
           <PrivateRoute allowedRoles={['Customer']}>
-            <UserCart />
+            <ShopPage />
           </PrivateRoute>
-        } />
-        <Route path="/shop" element={
+        }
+      />
+
+      <Route
+        path="/shop/cart"
+        element={
           <PrivateRoute allowedRoles={['Customer']}>
-            <UserShop />
+            <CartPage />
           </PrivateRoute>
-        } />
-        <Route path="/orders" element={
+        }
+      />
+
+      <Route
+        path="/shop/checkout"
+        element={
           <PrivateRoute allowedRoles={['Customer']}>
-            <UserOrders />
+            <CheckoutPage />
           </PrivateRoute>
-        } />
-        {/* Misc Routes */}
-        <Route path="/logout" element={
-          <PrivateRoute allowedRoles={['admin', 'merchant', 'Customer']}>
-            <Logout />
+        }
+      />
+
+      <Route
+        path="shop/confirmation"
+        element={
+          <PrivateRoute allowedRoles={['Customer']}>
+            <OrderConfirmationPage />
           </PrivateRoute>
-        } />
-        <Route path="/unauthorized" element={
-          <Unauthorized />
-        } />
-        {/* <Route path="/profile" element={
-          <PrivateRoute allowedRoles={['admin', 'merchant', 'Customer']}>
-            <UserProfile />
+        }
+      />
+      <Route
+        path="shop/order-history"
+        element={
+          <PrivateRoute allowedRoles={['Customer']}>
+            <OrderHistoryPage />
           </PrivateRoute>
-        } /> */}
+        }
+      />
 
 
-      </Routes>
-    </Router>
-  )
-} 
+      {/* Admin Pages */}
+      <Route
+        path="/admin"
+        element={
+          <PrivateRoute allowedRoles={['admin']}>
+            <AdminDashboard />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/admin/orders"
+        element={
+          <PrivateRoute allowedRoles={['admin']}>
+            <AdminOrders />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/admin/products-list"
+        element={
+          <PrivateRoute allowedRoles={['admin']}>
+            <AdminProductListing />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/admin/sales-report"
+        element={
+          <PrivateRoute allowedRoles={['admin']}>
+            <AdminSalesReport />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/admin/users-list"
+        element={
+          <PrivateRoute allowedRoles={['admin']}>
+            <AdminUserList />
+          </PrivateRoute>
+        }
+      />
+    </Routes>
+
+  );
+};
 
 export default AppRoutes;
