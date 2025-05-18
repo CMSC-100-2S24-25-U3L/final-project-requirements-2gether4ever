@@ -1,0 +1,31 @@
+{
+  "name": "final-project-requirements-2gether4ever",
+  "version": "1.0.0",
+  "description": "A web application developed for the Department of Agriculture (DA) to facilitate direct transactions between farmers and consumers. This e-commerce platform enables customers to shop directly from farmers' inventories, while the DA manages the catalog of products and handles order fulfillment.",
+  "main": "backend/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "node --watch backend/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CMSC-100-2S24-25-U3L/final-project-requirements-2gether4ever.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CMSC-100-2S24-25-U3L/final-project-requirements-2gether4ever/issues"
+  },
+  "homepage": "https://github.com/CMSC-100-2S24-25-U3L/final-project-requirements-2gether4ever#readme",
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "body-parser": "^2.2.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "mongoose": "^8.13.3",
+    "multer": "^1.4.5-lts.2"
+  }
+}
