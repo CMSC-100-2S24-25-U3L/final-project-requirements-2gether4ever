@@ -31,4 +31,4 @@ app.use("/user", userRouter)
 app.use("/user-transaction", userTransactionRouter)
 
 // 
-app.listen(3000, () => { console.log('Server started at port 3000')} );
+app.listen(5000, () => { console.log('Server started at port 5000')} );
