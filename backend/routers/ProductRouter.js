@@ -14,6 +14,11 @@ router.post('/add', async (req, res) => {
       return res.status(400).json({ message: 'Missing required fields: name, type, quantity, or price' });
     }
 
+    const existingProduct = await Product.findOne({ id });
+    if (existingProduct) {
+      return res.status(409).json({ message: 'Product with this id already exists' });
+    }
+
     const newProduct = new Product({ id, name, description, type, quantity, price });
     await newProduct.save();
     res.status(201).json({ message: 'Product added successfully', product: newProduct });
