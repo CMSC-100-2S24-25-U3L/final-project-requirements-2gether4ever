@@ -33,7 +33,7 @@ router.put('/update/:id', async (req, res) => {
       return res.status(400).json({ message: 'No updates provided' });
     }
 
-    const updatedProduct = await Product.findByIdAndUpdate(id, updates, { new: true, runValidators: true });
+    const updatedProduct = await Product.findOneAndUpdate({ id: id }, updates, { new: true, runValidators: true });
     if (!updatedProduct) return res.status(404).json({ message: 'Product not found' });
 
     res.status(200).json({ message: 'Product updated successfully', product: updatedProduct });
@@ -47,7 +47,7 @@ router.delete('/delete/:id', async (req, res) => {
   try {
     const { id } = req.params;
 
-    const deletedProduct = await Product.findByIdAndDelete(id);
+    const deletedProduct = await Product.findOneAndDelete({ id: id });
     if (!deletedProduct) return res.status(404).json({ message: 'Product not found' });
 
     res.status(200).json({ message: 'Product deleted successfully' });
@@ -80,10 +80,15 @@ router.put('/inventory/:id', async (req, res) => {
       return res.status(400).json({ message: 'Quantity is required' });
     }
 
-    const product = await Product.findById(id);
+    // Change from findById to findOne({ id })
+    const product = await Product.findOne({ id });
     if (!product) return res.status(404).json({ message: 'Product not found' });
 
-    product.quantity -= quantity;
+    // Update the product's quantity 
+    if (typeof quantity !== 'number') {
+      return res.status(400).json({ message: 'Quantity must be a number' });
+    }
+    product.quantity = quantity;
     if (product.quantity < 0) {
       return res.status(400).json({ message: 'Insufficient stock' });
     }
