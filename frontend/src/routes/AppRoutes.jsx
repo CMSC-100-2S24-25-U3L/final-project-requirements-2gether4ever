@@ -13,7 +13,7 @@ import Redirector from "../pages/Redirector";
 // ADMIN PAGES
 import AdminDashboard from "../pages/admin/AdminDashboard";
 import AdminOrders from "../pages/admin/AdminOrders";
-import AdminProductListing from "../pages/admin/AdminProductListing";
+import AdminProductListings from "../pages/admin/AdminProductListings";
 import AdminSalesReport from "../pages/admin/AdminSalesReport";
 import AdminUserList from "../pages/admin/AdminUserList";
 
@@ -120,10 +120,10 @@ const AppRoutes = () => {
         }
       />
       <Route
-        path="/admin/products-list"
+        path="/admin/products"
         element={
           <PrivateRoute allowedRoles={['admin']}>
-            <AdminProductListing />
+            <AdminProductListings />
           </PrivateRoute>
         }
       />
@@ -136,7 +136,7 @@ const AppRoutes = () => {
         }
       />
       <Route
-        path="/admin/users-list"
+        path="/admin/users"
         element={
           <PrivateRoute allowedRoles={['admin']}>
             <AdminUserList />

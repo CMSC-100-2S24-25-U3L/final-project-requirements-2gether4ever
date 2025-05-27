@@ -1,5 +1,7 @@
 import express from 'express';
 import User from '../models/User.js'; // Your User model
+import Product from '../models/Product.js';
+import UserTransaction from '../models/UserTransaction.js';
 import bcrypt from 'bcryptjs'; // For hashing passwords
 import jwt from 'jsonwebtoken';
 
@@ -66,12 +68,14 @@ router.post('/login', async (req, res) => {
 
 // Get all users 
 router.get('/', async (req, res) => {
-    try {
-        const users = await User.find().select('-password');
-        res.json(users);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
+  try {
+    const filter = {};
+    if (req.query.userType) filter.userType = req.query.userType;
+    const users = await User.find(filter).select('-password');
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 });
 
 // GET /user/:id
@@ -102,6 +106,35 @@ router.put('/:id', async (req, res) => {
     if (!updatedUser) return res.status(404).json({ message: 'User not found' });
 
     res.json(updatedUser);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Admin summary route
+router.get('/admin/summary', async (req, res) => {
+  try {
+    // Total customers
+    const usersCount = await User.countDocuments({ userType: 'Customer' });
+
+    // Total products
+    const productsCount = await Product.countDocuments();
+
+    // Total orders (assuming each UserTransaction is an order)
+    const ordersCount = await UserTransaction.countDocuments();
+
+    // Total sales (sum of all order totals)
+    const salesAgg = await UserTransaction.aggregate([
+      { $group: { _id: null, totalSales: { $sum: "$total" } } }
+    ]);
+    const totalSales = salesAgg[0]?.totalSales || 0;
+
+    res.json({
+      users: usersCount,
+      products: productsCount,
+      orders: ordersCount,
+      sales: totalSales
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
