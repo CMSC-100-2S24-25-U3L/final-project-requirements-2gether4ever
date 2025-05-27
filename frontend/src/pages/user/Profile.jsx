@@ -218,7 +218,7 @@ const Profile = () => {
             )}
           </div>
         </div>
-        <ProfileTab userId={userId} />
+        <ProfileTab userEmail={user?.email} />
       </div>
     </div>
   );

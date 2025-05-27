@@ -40,6 +40,7 @@ router.post('/order', async (req, res) => {
 // GET: Get all orders
 router.get('/', async (req, res) => {
     try {
+        // This will replace productId with the full product document
         const orders = await UserTransaction.find().populate('productId');
         res.json(orders);
     } catch (error) {
@@ -122,6 +123,43 @@ router.patch('/cancel/:id', async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
+});
+
+// PATCH: Update order status (Approve/Confirm or Cancel)
+router.patch('/:id', async (req, res) => {
+    try {
+        const { status } = req.body;
+        const order = await UserTransaction.findById(req.params.id);
+        if (!order) return res.status(404).json({ message: 'Order not found' });
+
+        // Only allow status change if order is pending
+        if (order.orderStatus !== 0) {
+            return res.status(400).json({ message: 'Only pending orders can be updated' });
+        }
+
+        if (status === 1) { // Approve/Confirm
+            // Decrease product quantity
+            const product = await Product.findById(order.productId);
+            if (!product) return res.status(404).json({ message: 'Product not found' });
+            if (product.quantity < order.orderQuantity) {
+                return res.status(400).json({ message: 'Not enough stock to confirm order' });
+            }
+            product.quantity -= order.orderQuantity;
+            await product.save();
+            order.orderStatus = 1;
+            await order.save();
+            return res.json({ message: 'Order confirmed', order });
+        } else if (status === 2) { // Cancel
+            order.orderStatus = 2;
+            await order.save();
+            return res.json({ message: 'Order canceled', order });
+        } else {
+            return res.status(400).json({ message: 'Invalid status value' });
+        }
+    } catch (error) {
+        console.error('Order error:', error);
+        res.status(500).json({ message: error.message });
+    }
 });
 
 // GET: Sales Report - Basic (total sales and products sold)

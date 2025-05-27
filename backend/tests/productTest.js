@@ -1,10 +1,10 @@
 import needle from 'needle';
 
 // Base URL of your backend
-const BASE_URL = 'http://localhost:3000/product';
+const BASE_URL = 'http://localhost:5000';
 
 // Example: Get all products
-needle.get(`${BASE_URL}/list`, (err, res) => {
+needle.get(`${BASE_URL}/api/products/`, (err, res) => {
   if (err) return console.error('Error fetching products:', err);
   console.log('GET /product/list:', res.body);
 });

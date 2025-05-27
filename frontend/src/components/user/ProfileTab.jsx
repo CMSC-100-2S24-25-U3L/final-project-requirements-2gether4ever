@@ -2,19 +2,19 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import OrderCard from "./OrderCard";
 
-const ProfileTab = ({ userId }) => {
+const ProfileTab = ({ userEmail }) => {
   const [completedOrders, setCompletedOrders] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchCompletedOrders = async () => {
-      if (!userId) {
+      if (!userEmail) {
         setLoading(false);
         return;
       }
       try {
         const res = await axios.get(
-          `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/user-transaction/completed?userId=${userId}`
+          `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/user-transaction/completed?userId=${userEmail}`
         );
         setCompletedOrders(Array.isArray(res.data) ? res.data : []);
       } catch (err) {
@@ -24,7 +24,7 @@ const ProfileTab = ({ userId }) => {
       }
     };
     fetchCompletedOrders();
-  }, [userId]);
+  }, [userEmail]);
 
   return (
     <div className="profile-orders-tab">

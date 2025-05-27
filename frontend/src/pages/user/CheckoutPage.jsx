@@ -32,7 +32,7 @@ const CheckoutPage = () => {
         console.log('Placing order:', {
           productId: item.product?._id || item._id,
           orderQuantity: item.quantity,
-          email: form.email,
+          email: user.email,
         });
         await axios.post(
           `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/user-transaction/order`,
