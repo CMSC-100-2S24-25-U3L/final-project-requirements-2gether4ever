@@ -47,6 +47,36 @@ router.get('/', async (req, res) => {
     }
 });
 
+// GET: Get all pending orders
+router.get('/pending', async (req, res) => {
+    try {
+        const orders = await UserTransaction.find({ orderStatus: 0 }).populate('productId');
+        res.json(orders);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+// GET: Get all completed orders
+router.get('/completed', async (req, res) => {
+    try {
+        const orders = await UserTransaction.find({ orderStatus: 1 }).populate('productId');
+        res.json(orders);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+// GET: Get all canceled orders
+router.get('/canceled', async (req, res) => {
+    try {
+        const orders = await UserTransaction.find({ orderStatus: 2 }).populate('productId');
+        res.json(orders);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
 // PATCH: Confirm an order (Admin only)
 router.patch('/confirm/:id', async (req, res) => {
     try {
