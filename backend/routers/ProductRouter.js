@@ -20,7 +20,7 @@ const storage = multer.diskStorage({
 });
 
 // <<<<<<< customers
-// const upload = multer({ storage: storage });
+const upload = multer({ storage: storage });
 // =======
 // Update product details
 router.put('/update/:id', async (req, res) => {
