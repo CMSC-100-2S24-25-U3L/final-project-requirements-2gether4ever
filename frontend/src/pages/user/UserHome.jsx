@@ -1,6 +1,7 @@
 import React from "react";
 import Navbar from "../../components/NavBar";
 import Layout from "../../components/Page_Paddings";
+import HomeProductList from "../../components/user/HomeProductList";
 import { Link } from "react-router-dom";
 
 const UserHome = () => {
@@ -8,64 +9,66 @@ const UserHome = () => {
         <div>
           <Navbar />
           <Layout>
-            <div>
-              <button
-                className="
-                  btn
-                  btn-
-                  
-                "
-              >
-                Shop Now
-              </button>
-            </div>
             <div
               className="
+                bg-[url('/home/main.jpg')]
+                bg-cover bg-center
+                h-100
                 w-full
-                h-[200px]
+                relative
               "
             >
+              <Link to='/shop'>
+                <button
+                  className="
+                    absolute
+                    btn
+                    btn-[#424242]
+                    right-10
+                    bottom-10
+                  "
+                >
+                  Shop Now
+                </button>
+              </Link>
+            </div>
+            <HomeProductList />
+            <div
+              className="
+              w-full
+              h-[75px]
+              flex flex-row
+              justify-center
+              items-center
+              "
+            >
+              <Link to='/shop'>
+                <button
+                  className="
+                    btn
+                    btn-[#424242]
+                    mx-auto                    
+                  "
+                >
+                  Shop Now
+                </button>
+              </Link>
+            </div>
+            <div 
+              className="
+                flex flex-row
+                items-center
+                justify-items-center
 
+              "
+            >
+              <div>
+
+              </div>
             </div>
           </Layout>
         </div>
     );
-};
-
-const styles = {
-    container: {
-        padding: "40px",
-        textAlign: "center",
-        fontFamily: "Arial, sans-serif"
-    },
-    header: {
-        fontSize: "2.5rem",
-        color: "#d63384",
-        marginBottom: "10px"
-    },
-    subtext: {
-        fontSize: "1.2rem",
-        color: "#555",
-        marginBottom: "30px"
-    },
-    buttonContainer: {
-        display: "flex",
-        flexDirection: "column",
-        gap: "15px",
-        alignItems: "center"
-    },
-    button: {
-        textDecoration: "none",
-        backgroundColor: "#ff85b3",
-        color: "#fff",
-        padding: "12px 25px",
-        borderRadius: "25px",
-        fontSize: "1rem",
-        fontWeight: "bold",
-        transition: "0.3s",
-        width: "220px",
-        textAlign: "center"
-    }
 };
 
 export default UserHome;

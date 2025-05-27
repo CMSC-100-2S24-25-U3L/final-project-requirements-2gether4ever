@@ -12,8 +12,6 @@ const Navbar = () => {
           className="
           h-full 
           flex items-center 
-          border-1 border-[#424242]
-          bg-[#2E7D32]
           px-4 py-2 
           hover:bg-[#a8b059] hover:scale-105 transition duration-200 ease-in-out hover:rounded"
       >
@@ -36,6 +34,7 @@ const Navbar = () => {
       return (
         <>
           {navLink('/home', 'Home')}
+          {navLink('/shop', '🛍️ Browse Products')}
           {navLink('/shop/cart', '🛒 View Cart')}
           {navLink('/shop/order-history', '📦 Order History')}
           {navLink('/logout', 'Logout')}
@@ -51,7 +50,7 @@ const Navbar = () => {
   return (
     <nav className="fixed h-[75px] top-0 w-full bg-[#FFF8E1] z-50 shadow-md text-black">
       <div className="flex items-center justify-between h-full">
-        <Link to="/">
+        <Link to="/home">
           <img src="/logo/3.png" alt="The Nature's Basket" className="h-[70px] mx-1" />
         </Link>
 
@@ -93,7 +92,7 @@ const Navbar = () => {
 
       {/* Dropdown menu for mobile */}
       {isOpen && (
-        <div className="mt-4 flex flex-col md:hidden">
+        <div className="flex flex-col md:hidden">
           {renderLinks()}
         </div>
       )}

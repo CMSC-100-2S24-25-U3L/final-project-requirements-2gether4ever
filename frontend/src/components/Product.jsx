@@ -5,9 +5,9 @@ const Product = ({ product, addToCart }) => {
   const { name, price, unit, description, quantity, image } = product;
 
   return (
-    <div className="product-card">
+    <div className="product-card" id={`product-${product._id}`}>
       <div className="product-image">
-        <img src={image ? `http://localhost:5000${image}` : '/placeholder-product.jpg'} alt={name} />
+        <img src={image ? `${image}` : '/placeholder-product.jpg'} alt={name} />
       </div>
       <div className="product-info">
         <h3 className="product-name">{name}</h3>
