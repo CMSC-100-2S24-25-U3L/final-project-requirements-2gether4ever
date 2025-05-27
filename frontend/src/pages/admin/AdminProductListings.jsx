@@ -1,116 +1,36 @@
 // import Navbar from '../../components/NavBar';
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import './AdminUserList.css'; // Reuse table styles
+
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 const AdminProductListings = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [sortConfig, setSortConfig] = useState({ key: 'name', direction: 'asc' });
   const [editingProduct, setEditingProduct] = useState(null);
   const [formData, setFormData] = useState({
     name: '',
     description: '',
-    type: '1',
-    price: 0,
-    quantity: 0
+    type: '',
+    price: '',
+    quantity: ''
   });
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await fetch('/admin/products');
-        if (!response.ok) {
-          throw new Error('Failed to fetch products');
-        }
-        const data = await response.json();
-        setProducts(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchProducts();
   }, []);
 
-  const requestSort = (key) => {
-    let direction = 'asc';
-    if (sortConfig.key === key && sortConfig.direction === 'asc') {
-      direction = 'desc';
-    }
-    setSortConfig({ key, direction });
-  };
-
-  const sortedProducts = [...products].sort((a, b) => {
-    if (a[sortConfig.key] < b[sortConfig.key]) {
-      return sortConfig.direction === 'asc' ? -1 : 1;
-    }
-    if (a[sortConfig.key] > b[sortConfig.key]) {
-      return sortConfig.direction === 'asc' ? 1 : -1;
-    }
-    return 0;
-  });
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: name === 'price' || name === 'quantity' ? parseFloat(value) : value
-    });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const fetchProducts = async () => {
+    setLoading(true);
     try {
-      const url = editingProduct ? `/admin/products/${editingProduct._id}` : '/admin/products';
-      const method = editingProduct ? 'PUT' : 'POST';
-
-      const response = await fetch(url, {
-        method,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (!response.ok) {
-        throw new Error(editingProduct ? 'Failed to update product' : 'Failed to add product');
-      }
-
-      const updatedProduct = await response.json();
-
-      if (editingProduct) {
-        setProducts(products.map(p => p._id === updatedProduct._id ? updatedProduct : p));
-      } else {
-        setProducts([...products, updatedProduct]);
-      }
-
-      setEditingProduct(null);
-      setFormData({
-        name: '',
-        description: '',
-        type: '1',
-        price: 0,
-        quantity: 0
-      });
+      const res = await fetch(`${API_URL}/api/products`);
+      const data = await res.json();
+      setProducts(data.products || []);
     } catch (err) {
-      setError(err.message);
-    }
-  };
-
-  const deleteProduct = async (productId) => {
-    try {
-      const response = await fetch(`/admin/products/${productId}`, {
-        method: 'DELETE',
-      });
-      if (!response.ok) {
-        throw new Error('Failed to delete product');
-      }
-      setProducts(products.filter(product => product._id !== productId));
-    } catch (err) {
-      setError(err.message);
+      setError('Failed to fetch products');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -119,120 +39,137 @@ const AdminProductListings = () => {
     setFormData({
       name: product.name,
       description: product.description,
-      type: product.type.toString(),
+      type: product.category || product.type || '',
       price: product.price,
       quantity: product.quantity
     });
   };
 
-  if (loading) return <div>Loading products...</div>;
-  if (error) return <div>Error: {error}</div>;
+  const cancelEditing = () => {
+    setEditingProduct(null);
+    setFormData({
+      name: '',
+      description: '',
+      type: '',
+      price: '',
+      quantity: ''
+    });
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: name === 'price' || name === 'quantity' ? Number(value) : value
+    }));
+  };
+
+  const handleEditSubmit = async (e) => {
+    e.preventDefault();
+    if (!editingProduct) return;
+    try {
+      const res = await fetch(`${API_URL}/api/products/update/${editingProduct._id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+      if (!res.ok) throw new Error('Failed to update product');
+      await fetchProducts();
+      cancelEditing();
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const deleteProduct = async (productId) => {
+    if (!window.confirm('Are you sure you want to delete this product?')) return;
+    try {
+      const res = await fetch(`${API_URL}/api/products/${productId}`, {
+        method: 'DELETE'
+      });
+      if (!res.ok) throw new Error('Failed to delete product');
+      setProducts(products.filter(product => product._id !== productId));
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  if (loading) return <div className="loading-message">Loading products...</div>;
+  if (error) return <div className="error-message">{error}</div>;
 
   return (
-    <div className="product-management">
+    <div className="user-management user-management-admin full-page-admin">
       <h2>Product Listings</h2>
-      
-      <div className="product-form">
-        <h3>{editingProduct ? 'Edit Product' : 'Add New Product'}</h3>
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Product Name</label>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label>Description</label>
-            <textarea
-              name="description"
-              value={formData.description}
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label>Type</label>
-            <select
-              name="type"
-              value={formData.type}
-              onChange={handleInputChange}
-              required
-            >
-              <option value="1">Crop</option>
-              <option value="2">Poultry</option>
-            </select>
-          </div>
-          <div className="form-group">
-            <label>Price</label>
-            <input
-              type="number"
-              name="price"
-              min="0"
-              step="0.01"
-              value={formData.price}
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label>Quantity</label>
-            <input
-              type="number"
-              name="quantity"
-              min="0"
-              value={formData.quantity}
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-          <button type="submit">{editingProduct ? 'Update' : 'Add'} Product</button>
-          {editingProduct && (
-            <button type="button" onClick={() => setEditingProduct(null)}>Cancel</button>
-          )}
-        </form>
-      </div>
-
-      <div className="product-list">
-        <table>
-          <thead>
-            <tr>
-              <th onClick={() => requestSort('name')}>
-                Name {sortConfig.key === 'name' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
-              </th>
-              <th onClick={() => requestSort('type')}>
-                Type {sortConfig.key === 'type' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
-              </th>
-              <th onClick={() => requestSort('price')}>
-                Price {sortConfig.key === 'price' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
-              </th>
-              <th onClick={() => requestSort('quantity')}>
-                Qty {sortConfig.key === 'quantity' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
-              </th>
-              <th>Description</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {sortedProducts.map(product => (
-              <tr key={product._id}>
-                <td>{product.name}</td>
-                <td>{product.type === 1 ? 'Crop' : 'Poultry'}</td>
-                <td>${product.price.toFixed(2)}</td>
-                <td>{product.quantity}</td>
-                <td>{product.description}</td>
-                <td>
-                  <button onClick={() => startEditing(product)}>Edit</button>
-                  <button onClick={() => deleteProduct(product._id)}>Delete</button>
-                </td>
+      {products.length === 0 ? (
+        <p className="no-users">No products found.</p>
+      ) : (
+        <div className="table-responsive">
+          <table className="users-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type/Category</th>
+                <th>Price</th>
+                <th>Qty</th>
+                <th>Description</th>
+                <th>Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {products.map(product => (
+                <tr key={product._id}>
+                  <td>{product.name}</td>
+                  <td>{product.category || product.type}</td>
+                  <td>₱{Number(product.price).toFixed(2)}</td>
+                  <td>{product.quantity}</td>
+                  <td>{product.description}</td>
+                  <td>
+                    <div className="action-buttons">
+                      <button className="btn btn-primary" onClick={() => startEditing(product)}>Edit</button>
+                      <button className="btn delete-btn" onClick={() => deleteProduct(product._id)}>Delete</button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {/* Popup Edit Form */}
+      {editingProduct && (
+        <div className="popup-overlay">
+          <div className="popup-form">
+            <form className="edit-product-form" onSubmit={handleEditSubmit}>
+              <h3>Edit Product</h3>
+              <label>
+                Name:
+                <input name="name" value={formData.name} onChange={handleInputChange} required />
+              </label>
+              <label>
+                Description:
+                <input name="description" value={formData.description} onChange={handleInputChange} />
+              </label>
+              <label>
+                Type/Category:
+                <input name="type" value={formData.type} onChange={handleInputChange} />
+              </label>
+              <label>
+                Price:
+                <input name="price" type="number" step="0.01" value={formData.price} onChange={handleInputChange} required />
+              </label>
+              <label>
+                Quantity:
+                <input name="quantity" type="number" value={formData.quantity} onChange={handleInputChange} required />
+              </label>
+              <div style={{marginTop: '1rem'}}>
+                <button type="submit" className="btn btn-primary">Save</button>
+                <button type="button" className="btn" style={{marginLeft: '1rem'}} onClick={cancelEditing}>Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

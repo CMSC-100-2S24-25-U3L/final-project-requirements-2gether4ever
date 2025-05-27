@@ -97,3 +97,96 @@ html, body, #root {
   align-items: center;
   justify-content: center;
 }
+
+/* Popup overlay and form styling */
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(34, 34, 34, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.popup-form {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(51, 115, 87, 0.18);
+  padding: 2rem 2.5rem;
+  min-width: 340px;
+  max-width: 95vw;
+}
+
+.edit-product-form label {
+  display: block;
+  margin-bottom: 1rem;
+  color: #222;
+}
+
+.edit-product-form input {
+  width: 100%;
+  padding: 7px 12px;
+  border-radius: 6px;
+  border: 1px solid #a8b059;
+  margin-top: 4px;
+  font-size: 1rem;
+  margin-bottom: 2px;
+}
+
+
+/* Uniform button styles for admin tables and popups */
+.btn {
+  background: #337357;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 18px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin: 0 2px;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  box-shadow: 0 1px 4px rgba(51, 115, 87, 0.08);
+  outline: none;
+  display: inline-block;
+}
+
+.btn.btn-primary {
+  background: #337357;
+  color: #fff;
+}
+
+.btn.btn-primary:hover,
+.btn:hover {
+  background: #24543e;
+  color: #fff;
+}
+
+.btn.delete-btn {
+  background: #e57373;
+  color: #fff;
+}
+
+.btn.delete-btn:hover {
+  background: #b71c1c;
+  color: #fff;
+}
+
+/* Flex container for action buttons in table */
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+vertical-align: middle;
+  align-items: center;     
+  justify-content: center;  
+  height: 100%;
+}
+
+.users-table td {
+  vertical-align: middle;   
+}

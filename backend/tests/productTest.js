@@ -46,7 +46,7 @@ const newProduct = {
 // });
 
 // Example: Delete a product
-needle.delete(`${BASE_URL}/delete/P001`, (err, res) => {
-  if (err) return console.error('Error deleting product:', err);
-  console.log('DELETE /product/delete/P001:', res.body);
-});
+// needle.delete(`${BASE_URL}/delete/P001`, (err, res) => {
+//   if (err) return console.error('Error deleting product:', err);
+//   console.log('DELETE /product/delete/P001:', res.body);
+// });
