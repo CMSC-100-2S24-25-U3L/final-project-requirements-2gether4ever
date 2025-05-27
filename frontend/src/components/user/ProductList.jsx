@@ -12,24 +12,32 @@ const ProductList = ({ addToCart }) => {
   const [filters, setFilters] = useState({
     search: '',
     priceRange: { min: 0, max: 1000 },
-    sortBy: 'name-asc'
+    sortBy: 'name-asc',
+    category: '',
   });
 
-  const categories = ['Gulay', 'Prutas', 'Karne at Itlog', 'Bigas at Butil', 'Mga Gawa sa Sakahan', 'Organik'];
+  const categories = [
+    'Gulay',
+    'Prutas',
+    'Karne at Itlog',
+    'Bigas at Butil',
+    'Mga Gawa sa Sakahan',
+    'Organik'
+  ];
 
   useEffect(() => {
     const getProducts = async () => {
       try {
         setLoading(true);
         const data = await fetchProducts();
-        console.log('API URL:', import.meta.env.VITE_API_URL || 'http://localhost:5000/api');  // log API URL
-        console.log('Fetched products:', data);  // log raw fetched data
+
         const productArray = Array.isArray(data) ? data : data.products || [];
+        console.log('✅ Products fetched:', productArray.length);
         setProducts(productArray);
         setFilteredProducts(productArray);
       } catch (err) {
+        console.error('❌ Error fetching products:', err);
         setError('Failed to load products. Please try again later.');
-        console.error('Error fetching products:', err);
       } finally {
         setLoading(false);
       }
@@ -44,47 +52,43 @@ const ProductList = ({ addToCart }) => {
 
   const applyFilters = () => {
     let result = [...products];
-    console.log('Applying filters on products:', result.length);
 
-    // Search
+    // 🔍 Search
     if (filters.search) {
-      const searchTerm = filters.search.toLowerCase();
-      result = result.filter(product =>
-        product.name?.toLowerCase().includes(searchTerm) ||
-        product.description?.toLowerCase().includes(searchTerm)
+      const term = filters.search.toLowerCase();
+      result = result.filter(
+        product =>
+          product.name?.toLowerCase().includes(term) ||
+          product.description?.toLowerCase().includes(term)
       );
-      console.log(`After search filter (${filters.search}):`, result.length);
     }
 
-    // Category filter (type field)
+    // 📂 Category
     if (filters.category) {
       result = result.filter(product => product.category === filters.category);
-      console.log(`After category filter (${filters.category}):`, result.length);
     }
 
-    // Price range filter
+    // 💸 Price range
     result = result.filter(product =>
       product.price >= filters.priceRange.min &&
       product.price <= filters.priceRange.max
     );
-    console.log(`After price filter (min: ${filters.priceRange.min}, max: ${filters.priceRange.max}):`, result.length);
 
-    // Sorting
-    const [sortField, sortDirection] = filters.sortBy.split('-');
+    // ↕️ Sorting
+    const [field, direction] = filters.sortBy.split('-');
     result.sort((a, b) => {
-      if (sortField === 'price') {
-        return sortDirection === 'asc' ? a.price - b.price : b.price - a.price;
+      if (field === 'price') {
+        return direction === 'asc' ? a.price - b.price : b.price - a.price;
       } else {
         const nameA = a.name?.toUpperCase() || '';
         const nameB = b.name?.toUpperCase() || '';
-        if (nameA < nameB) return sortDirection === 'asc' ? -1 : 1;
-        if (nameA > nameB) return sortDirection === 'asc' ? 1 : -1;
-        return 0;
+        return direction === 'asc'
+          ? nameA.localeCompare(nameB)
+          : nameB.localeCompare(nameA);
       }
     });
-    console.log('After sorting:', result.map(p => p.name));
 
-    setFilteredProducts(Array.isArray(result) ? result : []);
+    setFilteredProducts(result);
   };
 
   const handleFilterChange = (e) => {
@@ -95,7 +99,7 @@ const ProductList = ({ addToCart }) => {
         ...prev,
         priceRange: {
           ...prev.priceRange,
-          [name]: isNaN(Number(value)) ? 0 : Number(value)
+          [name]: Number(value)
         }
       }));
     } else {
@@ -174,7 +178,7 @@ const ProductList = ({ addToCart }) => {
       </div>
 
       <div className="products-grid">
-        {Array.isArray(filteredProducts) && filteredProducts.length > 0 ? (
+        {filteredProducts.length > 0 ? (
           filteredProducts.map(product => (
             <Product
               key={product._id}

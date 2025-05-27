@@ -2,7 +2,7 @@ import React from 'react';
 import './Product.css';
 
 const Product = ({ product, addToCart }) => {
-  const { name, price, image, unit, description, quantity } = product;
+  const { name, price, unit, description, quantity, image } = product;
 
   return (
     <div className="product-card">
