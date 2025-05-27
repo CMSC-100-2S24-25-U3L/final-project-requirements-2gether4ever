@@ -23,6 +23,7 @@ import CartPage from "../pages/user/CartPage";
 import CheckoutPage from "../pages/user/CheckoutPage";
 import OrderConfirmationPage from "../pages/user/OrderConfirmationPage";
 import OrderHistoryPage from '../pages/user/OrderHistoryPage';
+import Profile from "../pages/user/Profile"; 
 
 
 const AppRoutes = () => {
@@ -87,6 +88,14 @@ const AppRoutes = () => {
         element={
           <PrivateRoute allowedRoles={['Customer']}>
             <OrderHistoryPage />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/profile"
+        element={
+          <PrivateRoute allowedRoles={['Customer']}>
+            <Profile />
           </PrivateRoute>
         }
       />

@@ -87,4 +87,24 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+// Update user details
+router.put('/:id', async (req, res) => {
+  try {
+    const { firstName, lastName, address, phone, birthday } = req.body;
+
+    // Find user by ID and update the allowed fields
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      { firstName, lastName, address, phone, birthday },
+      { new: true, runValidators: true }
+    ).select('-password'); 
+
+    if (!updatedUser) return res.status(404).json({ message: 'User not found' });
+
+    res.json(updatedUser);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 export default router;

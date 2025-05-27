@@ -38,6 +38,7 @@ const Navbar = () => {
           {navLink('/home', 'Home')}
           {navLink('/shop/cart', '🛒 View Cart')}
           {navLink('/shop/order-history', '📦 Order History')}
+          {navLink('/profile', '👤 Profile')}
           {navLink('/logout', 'Logout')}
         </>
       );

@@ -60,7 +60,9 @@ router.get('/pending', async (req, res) => {
 // GET: Get all completed orders
 router.get('/completed', async (req, res) => {
     try {
-        const orders = await UserTransaction.find({ orderStatus: 1 }).populate('productId');
+        const filter = { orderStatus: 1 };
+        if (req.query.userId) filter.email = req.query.userId; // or filter.userId if you store userId
+        const orders = await UserTransaction.find(filter).populate('productId');
         res.json(orders);
     } catch (error) {
         res.status(500).json({ message: error.message });
