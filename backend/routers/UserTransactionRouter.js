@@ -7,7 +7,7 @@ const router = express.Router();
 // This is to CREATE: Will place a new order
 router.post('/order', async (req, res) => {
     try {
-        const { transactionId, productId, orderQuantity, email, time } = req.body;
+        const { productId, orderQuantity, email } = req.body;
 
         // To fetch the intended product
         const product = await Product.findById(productId);
@@ -17,19 +17,22 @@ router.post('/order', async (req, res) => {
         if (orderQuantity > product.quantity) {
             return res.status(400).json({ message: 'Insufficient product quantity' });
         }
+        
+        const now = new Date();
+        const time = now.toLocaleTimeString();
 
         // To create the order
         const newOrder = new UserTransaction({
-            transactionId,
             productId,
             orderQuantity,
             email,
-            time
+            time,
         });
 
         await newOrder.save();
         res.status(201).json({ message: 'Order placed', newOrder });
     } catch (error) {
+        console.error('Order error:', error);
         res.status(500).json({ message: error.message });
     }
 });
@@ -38,6 +41,36 @@ router.post('/order', async (req, res) => {
 router.get('/', async (req, res) => {
     try {
         const orders = await UserTransaction.find().populate('productId');
+        res.json(orders);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+// GET: Get all pending orders
+router.get('/pending', async (req, res) => {
+    try {
+        const orders = await UserTransaction.find({ orderStatus: 0 }).populate('productId');
+        res.json(orders);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+// GET: Get all completed orders
+router.get('/completed', async (req, res) => {
+    try {
+        const orders = await UserTransaction.find({ orderStatus: 1 }).populate('productId');
+        res.json(orders);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+// GET: Get all canceled orders
+router.get('/canceled', async (req, res) => {
+    try {
+        const orders = await UserTransaction.find({ orderStatus: 2 }).populate('productId');
         res.json(orders);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -69,6 +102,7 @@ router.patch('/confirm/:id', async (req, res) => {
 
         res.json({ message: 'Order confirmed', order });
     } catch (error) {
+        console.error('Order error:', error);
         res.status(500).json({ message: error.message });
     }
 });
@@ -88,6 +122,7 @@ router.patch('/cancel/:id', async (req, res) => {
 
         res.json({ message: 'Order canceled', order });
     } catch (error) {
+        console.error('Order error:', error);
         res.status(500).json({ message: error.message });
     }
 });
