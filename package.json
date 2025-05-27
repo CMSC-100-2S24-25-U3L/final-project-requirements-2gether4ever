@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "start": "node backend/server.js",
-    "dev": "node --watch backend/server.js"
+    "dev": "node --watch backend/server.js",
+    "seed": "node seed/importProducts.js"
   },
   "repository": {
     "type": "git",
