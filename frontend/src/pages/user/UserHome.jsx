@@ -1,17 +1,5 @@
 import React from "react";
-<<<<<<< HEAD
 
-const UserHome = () => {
-    return (
-      <div>
-        <Navbar />
-        
-      </div>
-    );
-};
-
-export default UserHome;
-=======
 import { Link } from "react-router-dom";
 
 const UserHome = () => {
@@ -66,4 +54,3 @@ const styles = {
 };
 
 export default UserHome;
->>>>>>> customer/feature

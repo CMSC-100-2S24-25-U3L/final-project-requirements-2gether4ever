@@ -1,16 +1,3 @@
-<<<<<<< HEAD
-import React from "react";
-
-const Product = () => {
-    return (
-      <div>
-        
-      </div>
-    );
-};
-
-export default Product;
-=======
 import React from 'react';
 import './Product.css';
 
@@ -40,4 +27,4 @@ const Product = ({ product, addToCart }) => {
 };
 
 export default Product;
->>>>>>> customer/feature
+
