@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import OrderCard from '../../components/user/OrderCard';
+import './OrderHistoryPage.css';
 
 const TABS = [
   { label: 'All', value: 'all' },
@@ -9,6 +10,13 @@ const TABS = [
   { label: 'Pending', value: 'pending' },
   { label: 'Cancelled', value: 'canceled' }
 ];
+
+const statusLabels = {
+  all: 'orders',
+  completed: 'completed orders',
+  pending: 'pending orders',
+  canceled: 'cancelled orders'
+};
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -31,16 +39,40 @@ const OrderHistoryPage = () => {
   const [loading, setLoading] = useState(true);
   const [tab, setTab] = useState('all');
   const [canceling, setCanceling] = useState(null);
+  const [counts, setCounts] = useState({
+    all: 0,
+    completed: 0,
+    pending: 0,
+    canceled: 0,
+  });
+
+  // Helper to count orders by status
+  const computeCounts = (orders) => {
+    const countObj = { all: orders.length, completed: 0, pending: 0, canceled: 0 };
+    orders.forEach(order => {
+      if (order.orderStatus === 0) countObj.pending += 1;
+      else if (order.orderStatus === 1) countObj.completed += 1;
+      else if (order.orderStatus === 2) countObj.canceled += 1;
+    });
+    return countObj;
+  };
 
   const fetchOrders = async (status) => {
     setLoading(true);
     try {
       let url = `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/user-transaction`;
-      if (status && status !== 'all') url += `/${status}`;
+      // Always fetch all for counting, then filter for display
       const res = await axios.get(url);
-      setOrders(Array.isArray(res.data) ? res.data : []);
+      const allOrders = Array.isArray(res.data) ? res.data : [];
+      setCounts(computeCounts(allOrders));
+      let filteredOrders = allOrders;
+      if (status === 'completed') filteredOrders = allOrders.filter(o => o.orderStatus === 1);
+      else if (status === 'pending') filteredOrders = allOrders.filter(o => o.orderStatus === 0);
+      else if (status === 'canceled') filteredOrders = allOrders.filter(o => o.orderStatus === 2);
+      setOrders(filteredOrders);
     } catch (error) {
       setOrders([]);
+      setCounts({ all: 0, completed: 0, pending: 0, canceled: 0 });
       console.error('Failed to load orders:', error);
     } finally {
       setLoading(false);
@@ -49,16 +81,15 @@ const OrderHistoryPage = () => {
 
   useEffect(() => {
     fetchOrders(tab);
+
   }, [tab]);
 
-  // Cancel order handler
   const handleCancelOrder = async (orderId) => {
     setCanceling(orderId);
     try {
       await axios.patch(
         `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/user-transaction/cancel/${orderId}`
       );
-      // Refresh orders after cancel
       fetchOrders(tab);
     } catch (error) {
       alert('Failed to cancel order.');
@@ -70,37 +101,38 @@ const OrderHistoryPage = () => {
   return (
     <div className="order-history">
       <h1>Your Orders</h1>
-      <div className="order-tabs" style={{ marginBottom: 16 }}>
+      <div className="order-tabs">
         {TABS.map(t => (
           <button
             key={t.value}
             onClick={() => setTab(t.value)}
-            style={{
-              marginRight: 8,
-              fontWeight: tab === t.value ? 'bold' : 'normal',
-              borderBottom: tab === t.value ? '2px solid #333' : 'none'
-            }}
+            className={`order-tab-btn${tab === t.value ? ' selected' : ''}`}
           >
             {t.label}
+            <span className="order-tab-count">{counts[t.value]}</span>
           </button>
         ))}
       </div>
       {loading ? (
         <p>Loading order history...</p>
       ) : orders.length === 0 ? (
-        <p>You have no {tab === 'all' ? '' : tab} orders.</p>
+        <div className="order-history-empty">
+          <span>🗂️</span>
+          <p style={{ marginTop: 8 }}>You have no {statusLabels[tab]}.</p>
+        </div>
       ) : (
         <ErrorBoundary>
-          {orders.map(order => (
-            <div key={order._id}>
+          <div className="order-cards-container">
+            {orders.map(order => (
               <OrderCard
+                key={order._id}
                 order={order}
                 showCancel={tab === 'pending'}
                 onCancel={() => handleCancelOrder(order._id)}
                 canceling={canceling === order._id}
               />
-            </div>
-          ))}
+            ))}
+          </div>
         </ErrorBoundary>
       )}
     </div>
