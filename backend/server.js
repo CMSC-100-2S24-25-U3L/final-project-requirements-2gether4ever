@@ -21,8 +21,18 @@ app.use(cors({
     credentials: true,
 }));
 app.use(bodyParser.json());
+console.log("Static path:", path.join(__dirname, 'public/uploads'));
+import fs from 'fs';
 
-app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
+// Check if path exists at startup
+const testPath = path.join(__dirname, 'public/uploads/ampalaya.png');
+if (fs.existsSync(testPath)) {
+    console.log('✅ Image file found at:', testPath);
+} else {
+    console.error('❌ Image file not found at:', testPath);
+}
+
+    app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/Farm2Table', {
@@ -48,5 +58,5 @@ app.use("/user-transaction", userTransactionRouter);
 // });
 // =======
 // 
-app.listen(5000, () => { console.log('Server started at port 5000')} );
+app.listen(5000, () => { console.log('Server started at port 5000') });
 // >>>>>>> main

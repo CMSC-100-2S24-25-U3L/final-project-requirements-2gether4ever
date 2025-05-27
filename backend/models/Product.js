@@ -12,7 +12,7 @@ const productSchema = new mongoose.Schema({
     enum: [
       'Gulay',
       'Prutas',
-      'Karne at itlog',
+      'Karne at Itlog',
       'Bigas at Butil',
       'Mga Gawa sa Sakahan',
       'Organik'

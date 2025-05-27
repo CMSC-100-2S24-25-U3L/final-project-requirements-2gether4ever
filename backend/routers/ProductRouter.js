@@ -8,15 +8,16 @@ const router = express.Router();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+
 // Configure Multer for image uploads
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, path.join(__dirname, '../public/uploads/'));
   },
   filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, uniqueSuffix + path.extname(file.originalname));
+    cb(null, file.originalname);
   }
+
 });
 const upload = multer({ storage: storage });
 
@@ -94,6 +95,8 @@ router.post('/admin/products', upload.single('image'), async (req, res) => {
       return res.status(409).json({ message: 'Product with this id already exists' });
     }
 
+    console.log("Uploaded file saved as:", req.file?.filename); // ✅ moved here
+
     const newProduct = new Product({
       id,
       name,
@@ -110,5 +113,6 @@ router.post('/admin/products', upload.single('image'), async (req, res) => {
     res.status(500).json({ message: 'Error adding product', error: err.message });
   }
 });
+
 
 export default router;
