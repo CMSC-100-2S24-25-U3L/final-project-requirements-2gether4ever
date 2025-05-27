@@ -1,7 +1,9 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import Product from '../models/Product.js' assert { type: "json" }; // if JSON module support isn't on
-import products from './products.json' assert { type: "json" };
+import Product from '../models/Product.js';
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const products = require('./product.json');
 
 dotenv.config();
 
