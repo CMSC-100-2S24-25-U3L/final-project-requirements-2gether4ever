@@ -41,17 +41,15 @@ router.get('/:id', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
-
 // POST /admin/products - create new product with image upload
 router.post('/admin/products', upload.single('image'), async (req, res) => {
   try {
-    const { productId, name, description, type, price, quantity } = req.body;
+    const { name, description, type, price, quantity } = req.body;
 
     const product = new Product({
-      productId,
       name,
       description,
-      type,
+      category: type, // If you're using `category` in your model
       price: parseFloat(price),
       quantity: parseInt(quantity),
       image: `/uploads/${req.file.filename}`
@@ -63,5 +61,6 @@ router.post('/admin/products', upload.single('image'), async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
 
 export default router;
