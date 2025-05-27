@@ -13,7 +13,7 @@ const statusLabels = {
   2: 'Canceled',
 };
 
-const OrderCard = ({ order }) => {
+const OrderCard = ({ order, showCancel, onCancel, canceling }) => {
   if (!order || !order.productId) {
     return <div className="order-card error">Order data is incomplete.</div>;
   }
@@ -30,7 +30,7 @@ const OrderCard = ({ order }) => {
         boxShadow: '0 1px 4px rgba(0,0,0,0.03)',
         maxWidth: 320,
         fontSize: 14,
-        color: '#222', 
+        color: '#222',
       }}
     >
       <div style={{ marginBottom: 4 }}>
@@ -58,7 +58,7 @@ const OrderCard = ({ order }) => {
           ₱{(order.productId.price * order.orderQuantity).toFixed(2)}
         </span>
       </div>
-      <div>
+      <div style={{ marginBottom: 8 }}>
         <strong>Status:</strong>{' '}
         <span
           style={{
@@ -73,6 +73,24 @@ const OrderCard = ({ order }) => {
           {statusLabels[order.orderStatus] || 'Unknown'}
         </span>
       </div>
+      {showCancel && (
+        <button
+          onClick={onCancel}
+          disabled={canceling}
+          style={{
+            background: '#ef4444',
+            color: '#fff',
+            border: 'none',
+            borderRadius: 4,
+            padding: '6px 16px',
+            marginBottom: 4,
+            cursor: canceling ? 'not-allowed' : 'pointer',
+            width: '100%',
+          }}
+        >
+          {canceling ? 'Cancelling...' : 'Cancel Order'}
+        </button>
+      )}
     </div>
   );
 };

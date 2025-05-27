@@ -107,24 +107,19 @@ router.patch('/confirm/:id', async (req, res) => {
     }
 });
 
-// PATCH: Cancel an order (Customer only if still pending)
+// Cancel an order by ID (set orderStatus to 2)
 router.patch('/cancel/:id', async (req, res) => {
-    try {
-        const order = await UserTransaction.findById(req.params.id);
-        if (!order) return res.status(404).json({ message: 'Order not found' });
-
-        if (order.orderStatus !== 0) {
-            return res.status(400).json({ message: 'Only pending orders can be canceled' });
-        }
-
-        order.orderStatus = 2;
-        await order.save();
-
-        res.json({ message: 'Order canceled', order });
-    } catch (error) {
-        console.error('Order error:', error);
-        res.status(500).json({ message: error.message });
-    }
+  try {
+    const order = await UserTransaction.findByIdAndUpdate(
+      req.params.id,
+      { orderStatus: 2 },
+      { new: true }
+    );
+    if (!order) return res.status(404).json({ message: 'Order not found' });
+    res.json(order);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 });
 
 // GET: Sales Report - Basic (total sales and products sold)
