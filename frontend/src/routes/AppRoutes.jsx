@@ -7,6 +7,7 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Logout from "../pages/Logout";
 import Unauthorized from "../pages/Unauthorized";
+import Redirector from "../pages/Redirector";
 
 
 // ADMIN PAGES
@@ -30,7 +31,7 @@ const AppRoutes = () => {
   return (
     <Routes>
       {/* Public Landing */}
-      <Route path="/" element={<h1>Welcome to 2gether4ever Customer Portal</h1>} />
+      <Route path="/" element={<Redirector />} />
 
       {/* Auth Pages */}
       <Route path="/login" element={<Login />} />
