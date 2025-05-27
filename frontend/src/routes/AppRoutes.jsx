@@ -94,7 +94,7 @@ const AppRoutes = () => {
 
       {/* Admin Pages */}
       <Route
-        path="/admin"
+        path="/admin/*"
         element={
           <PrivateRoute allowedRoles={['admin']}>
             <AdminDashboard />

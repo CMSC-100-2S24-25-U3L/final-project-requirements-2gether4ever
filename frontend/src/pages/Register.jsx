@@ -13,17 +13,18 @@ function Register() {
     e.preventDefault();
     try {
       // Register the user
-      const res = await axios.post('http://localhost:3000/user/register', {
+      const res = await axios.post('http://localhost:5000/user/register', {
         email,
         password,
       });
       
       // After registration, automatically login the user
-      const user = await loginUser({ email, password });
+      // const user = await loginUser({ email, password });
 
       navigate('/home');
 
     } catch (err) {
+      console.log(err)
       setError(err.response?.data?.message || 'Registration failed');
     }
   };
