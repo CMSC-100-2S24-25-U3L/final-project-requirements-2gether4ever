@@ -74,7 +74,7 @@
   {
     "name": "Sinandomeng",
     "description": "Soft and aromatic white rice, ideal for everyday meals.",
-    "category": "Bigas",
+    "category": "Bigas at Butil",
     "price": 50,
     "quantity": 20,
     "image": "/uploads/sinandomeng.png"
@@ -82,7 +82,7 @@
   {
     "name": "Dinorado",
     "description": "Premium fragrant rice with a slightly sticky texture when cooked.",
-    "category": "Bigas",
+    "category": "Bigas at Butil",
     "price": 60,
     "quantity": 15,
     "image": "/uploads/dinorado.png"
@@ -90,59 +90,57 @@
   {
     "name": "Brown Rice",
     "description": "Whole grain rice rich in fiber and nutrients for a healthy diet.",
-    "category": "Bigas",
+    "category": "Bigas at Butil",
     "price": 70,
     "quantity": 10,
     "image": "/uploads/brown_rice.png"
-  }, 
+  },
   {
-   "name": "Mais",
-   "description": "Golden yellow corn harvested fresh from the field, perfect for boiling or grilling.",
-   "category": "Sakahan",
-   "price": 25,
-   "quantity": 30,
-   "image": "/uploads/mais.png"
- },
- {
-   "name": "Kamote",
-   "description": "Naturally sweet root crop grown in loamy soil, ideal for snacks and desserts.",
-   "category": "Sakahan",
-   "price": 20,
-   "quantity": 40,
-   "image": "/uploads/kamote.png"
- },
- {
-   "name": "Patatas",
-   "description": "Freshly dug native potatoes, great for stews and fries.",
-   "category": "Sakahan",
-   "price": 45,
-   "quantity": 25,
-   "image": "/uploads/patatas.png"
- }, 
- {
-   "name": "Organic Lettuce",
-   "description": "Crisp, pesticide-free lettuce grown in natural compost-rich soil.",
-   "category": "Organik",
-   "price": 35,
-   "quantity": 18,
-   "image": "/uploads/organic_lettuce.png"
- },
- {
-   "name": "Organic Tomatoes",
-   "description": "Juicy and vibrant red tomatoes grown without synthetic fertilizers.",
-   "category": "Organik",
-   "price": 50,
-   "quantity": 22,
-   "image": "/uploads/organic_tomatoes.png"
- },
- {
-   "name": "Organic Ginger",
-   "description": "Fresh organic luya with strong aroma, perfect for tea and cooking.",
-   "category": "Organik",
-   "price": 65,
-   "quantity": 15,
-   "image": "/uploads/organic_ginger.png"
- }
- 
-
+    "name": "Mais",
+    "description": "Golden yellow corn harvested fresh from the field, perfect for boiling or grilling.",
+    "category": "Mga Gawa sa Sakahan",
+    "price": 25,
+    "quantity": 30,
+    "image": "/uploads/mais.png"
+  },
+  {
+    "name": "Kamote",
+    "description": "Naturally sweet root crop grown in loamy soil, ideal for snacks and desserts.",
+    "category": "Mga Gawa sa Sakahan",
+    "price": 20,
+    "quantity": 40,
+    "image": "/uploads/kamote.png"
+  },
+  {
+    "name": "Patatas",
+    "description": "Freshly dug native potatoes, great for stews and fries.",
+    "category": "Mga Gawa sa Sakahan",
+    "price": 45,
+    "quantity": 25,
+    "image": "/uploads/patatas.png"
+  },
+  {
+    "name": "Organic Lettuce",
+    "description": "Crisp, pesticide-free lettuce grown in natural compost-rich soil.",
+    "category": "Organik",
+    "price": 35,
+    "quantity": 18,
+    "image": "/uploads/organic_lettuce.png"
+  },
+  {
+    "name": "Organic Tomatoes",
+    "description": "Juicy and vibrant red tomatoes grown without synthetic fertilizers.",
+    "category": "Organik",
+    "price": 50,
+    "quantity": 22,
+    "image": "/uploads/organic_tomatoes.png"
+  },
+  {
+    "name": "Organic Ginger",
+    "description": "Fresh organic luya with strong aroma, perfect for tea and cooking.",
+    "category": "Organik",
+    "price": 65,
+    "quantity": 15,
+    "image": "/uploads/organic_ginger.png"
+  }
 ]
