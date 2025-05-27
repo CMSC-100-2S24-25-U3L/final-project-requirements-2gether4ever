@@ -6,9 +6,9 @@ export default defineConfig({
   plugins: [tailwindcss(), react()],
   server: {
     proxy: {
-      '/product': 'http://localhost:3000',
-      '/user': 'http://localhost:3000',
-      '/user-transaction': 'http://localhost:3000',
+      '/product': 'http://localhost:5000',
+      '/user': 'http://localhost:5000',
+      '/user-transaction': 'http://localhost:5000',
     },
   },
 });

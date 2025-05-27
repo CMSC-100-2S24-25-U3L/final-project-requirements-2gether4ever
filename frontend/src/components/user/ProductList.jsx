@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { fetchProducts } from '../../api/product';
+import { useLocation } from 'react-router-dom';
 import Product from '../Product';
 import './ProductList.css';
 
@@ -8,7 +9,11 @@ const ProductList = ({ addToCart }) => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const location = useLocation();
+  const [scrolledToProduct, setScrolledToProduct] = useState(false);
 
+  
+  
   const [filters, setFilters] = useState({
     search: '',
     priceRange: { min: 0, max: 1000 },
@@ -16,6 +21,21 @@ const ProductList = ({ addToCart }) => {
     category: '',
   });
 
+  useEffect(() => {
+    if (!loading && filteredProducts.length > 0 && !scrolledToProduct) {
+      const hash = location.hash;
+      if (hash) {
+        setTimeout(() => {
+          const target = document.querySelector(hash);
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth' });
+            setScrolledToProduct(true);
+          }
+        }, 50);
+      }
+    }
+  }, [filteredProducts, loading, location, scrolledToProduct]);
+  
   const categories = [
     'Gulay',
     'Prutas',
