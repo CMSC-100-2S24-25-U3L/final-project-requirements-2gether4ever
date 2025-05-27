@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const CheckoutPage = () => {
   const [cart, setCart] = useState({ items: [], total: 0 });
   const [form, setForm] = useState({ name: '', email: '', address: '', cardNumber: '', expiry: '', cvv: '' });
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -14,16 +16,41 @@ const CheckoutPage = () => {
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (Object.values(form).some(val => !val)) {
       setError('Please fill in all fields');
       return;
     }
     setError('');
-    const orderDetails = { ...form, cart };
-    localStorage.removeItem('cart');
-    navigate('/shop/confirmation', { state: orderDetails });
+    setLoading(true);
+
+    try {
+      // Loop through each cart item and send an order
+      for (const item of cart.items) {
+        //testing purposes
+        console.log('Placing order:', {
+          productId: item.product?._id || item._id,
+          orderQuantity: item.quantity,
+          email: form.email,
+        });
+        await axios.post(
+          `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/user-transaction/order`,
+          {
+            productId: item.product?._id || item._id, // adjust based on your cart structure
+            orderQuantity: item.quantity,
+            email: form.email,
+          }
+        );
+      }
+      localStorage.removeItem('cart');
+      navigate('/shop/confirmation', { state: { ...form, cart } });
+    } catch (err) {
+      setError('Order failed. Please try again.');
+      console.error('Order error:', err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -41,7 +68,7 @@ const CheckoutPage = () => {
           />
         ))}
         {error && <p className="error">{error}</p>}
-        <button type="submit">Place Order</button>
+        <button type="submit" disabled={loading}>{loading ? 'Placing Order...' : 'Place Order'}</button>
       </form>
     </div>
   );
