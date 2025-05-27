@@ -30,6 +30,7 @@ const OrderHistoryPage = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [tab, setTab] = useState('all');
+  const [canceling, setCanceling] = useState(null);
 
   const fetchOrders = async (status) => {
     setLoading(true);
@@ -49,6 +50,22 @@ const OrderHistoryPage = () => {
   useEffect(() => {
     fetchOrders(tab);
   }, [tab]);
+
+  // Cancel order handler
+  const handleCancelOrder = async (orderId) => {
+    setCanceling(orderId);
+    try {
+      await axios.patch(
+        `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/user-transaction/cancel/${orderId}`
+      );
+      // Refresh orders after cancel
+      fetchOrders(tab);
+    } catch (error) {
+      alert('Failed to cancel order.');
+    } finally {
+      setCanceling(null);
+    }
+  };
 
   return (
     <div className="order-history">
@@ -74,18 +91,20 @@ const OrderHistoryPage = () => {
         <p>You have no {tab === 'all' ? '' : tab} orders.</p>
       ) : (
         <ErrorBoundary>
-          {!loading && orders.length > 0 && (
-            <>
-              {console.log('Orders:', orders)}
-              {orders.map(order => <OrderCard key={order._id} order={order} />)}
-            </>
-          )}
+          {orders.map(order => (
+            <div key={order._id}>
+              <OrderCard
+                order={order}
+                showCancel={tab === 'pending'}
+                onCancel={() => handleCancelOrder(order._id)}
+                canceling={canceling === order._id}
+              />
+            </div>
+          ))}
         </ErrorBoundary>
       )}
     </div>
   );
 };
-
-
 
 export default OrderHistoryPage;
