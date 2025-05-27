@@ -135,7 +135,7 @@ const AppRoutes = () => {
         }
       />
       <Route
-        path="/admin/users-list"
+        path="/admin/users"
         element={
           <PrivateRoute allowedRoles={['admin']}>
             <AdminUserList />
