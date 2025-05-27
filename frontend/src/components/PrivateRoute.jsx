@@ -1,15 +1,15 @@
 import { Navigate } from 'react-router-dom';
+import { getUserFromToken } from '../api/auth';
 
 const PrivateRoute = ({ children, allowedRoles }) => {
   const token = localStorage.getItem('token');
-  const userRole = localStorage.getItem('userType');
-  console.log(userRole)
+  const user = getUserFromToken();
 
-  if (!token) {
+  if (!user) {
     return <Navigate to="/login" />;
   }
 
-  if (allowedRoles && !allowedRoles.includes(userRole)) {
+  if (allowedRoles && !allowedRoles.includes(user.userType)) {
     return <Navigate to="/unauthorized" />;
   }
 

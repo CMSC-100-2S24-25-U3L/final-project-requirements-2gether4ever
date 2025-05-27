@@ -17,9 +17,9 @@ const Login = () => {
 
       const userType = user.userType;
       if (userType === 'admin') navigate('/admin');
-      else if (userType === 'merchant') navigate('/merchant');
       else navigate('/home');
     } catch (err) {
+      console.log("Error: ", err.message);
       alert('Invalid credentials');
     }
   };
