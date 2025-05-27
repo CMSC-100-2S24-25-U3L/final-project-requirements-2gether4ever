@@ -24,8 +24,9 @@ const ProductList = ({ addToCart }) => {
         const data = await fetchProducts();
         console.log('API URL:', import.meta.env.VITE_API_URL || 'http://localhost:5000/api');  // log API URL
         console.log('Fetched products:', data);  // log raw fetched data
-        setProducts(data);
-        setFilteredProducts(data);
+        const productArray = Array.isArray(data) ? data : data.products || [];
+        setProducts(productArray);
+        setFilteredProducts(productArray);
       } catch (err) {
         setError('Failed to load products. Please try again later.');
         console.error('Error fetching products:', err);

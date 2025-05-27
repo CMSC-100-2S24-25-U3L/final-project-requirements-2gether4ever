@@ -4,14 +4,12 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 // Fetch all products
 export const fetchProducts = async () => {
-    try {
-        const response = await axios.get(`${API_URL}/products`);
-        return response.data;
-    } catch (error) {
-        console.error('Error fetching products:', error);
-        throw error;
-    }
+    const response = await fetch("http://localhost:5000/api/products"); // Hardcoded local URL
+    const data = await response.json();
+    return data.products; // Make sure this is an array
 };
+
+
 
 // Fetch a single product by ID
 export const fetchProductById = async (productId) => {

@@ -5,22 +5,10 @@ import { fileURLToPath } from 'url';
 import Product from '../models/Product.js';
 
 const router = express.Router();
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// <<<<<<< backendFixes-nevi
-//     const existingProduct = await Product.findOne({ id });
-//     if (existingProduct) {
-//       return res.status(409).json({ message: 'Product with this id already exists' });
-//     }
-
-//     const newProduct = new Product({ id, name, description, type, quantity, price });
-//     await newProduct.save();
-//     res.status(201).json({ message: 'Product added successfully', product: newProduct });
-//   } catch (error) {
-//     res.status(500).json({ message: 'Error adding product', error: error.message });
-// =======
+// Configure Multer for image uploads
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, path.join(__dirname, '../public/uploads/'));
@@ -30,53 +18,22 @@ const storage = multer.diskStorage({
     cb(null, uniqueSuffix + path.extname(file.originalname));
   }
 });
-
-// <<<<<<< customers
 const upload = multer({ storage: storage });
-// =======
-// Update product details
-router.put('/update/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
-    const updates = req.body;
 
-    // Validate if updates are provided
-    if (!updates || Object.keys(updates).length === 0) {
-      return res.status(400).json({ message: 'No updates provided' });
-    }
 
-    const updatedProduct = await Product.findOneAndUpdate({ id: id }, updates, { new: true, runValidators: true });
-    if (!updatedProduct) return res.status(404).json({ message: 'Product not found' });
-
-    res.status(200).json({ message: 'Product updated successfully', product: updatedProduct });
-  } catch (error) {
-    res.status(500).json({ message: 'Error updating product', error: error.message });
-  }
-});
-// >>>>>>> main
+// ==================== ROUTES ==================== //
 
 // GET all products
 router.get('/', async (req, res) => {
   try {
-// <<<<<<< customers
-//     const products = await Product.find();
-//     res.json(products);
-//   } catch (err) {
-//     res.status(500).json({ error: err.message });
-// =======
-    const { id } = req.params;
-
-    const deletedProduct = await Product.findOneAndDelete({ id: id });
-    if (!deletedProduct) return res.status(404).json({ message: 'Product not found' });
-
-    res.status(200).json({ message: 'Product deleted successfully' });
-  } catch (error) {
-    res.status(500).json({ message: 'Error deleting product', error: error.message });
-// >>>>>>> main
+    const products = await Product.find();
+    res.status(200).json({ products });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
-// GET product by ID
+// GET product by MongoDB _id
 router.get('/:id', async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
@@ -86,45 +43,72 @@ router.get('/:id', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
-// POST /admin/products - create new product with image upload
-router.post('/admin/products', upload.single('image'), async (req, res) => {
+
+// PUT update product details by custom id field
+router.put('/update/:id', async (req, res) => {
   try {
-    const { name, description, type, price, quantity } = req.body;
+    const { id } = req.params;
+    const updates = req.body;
 
-// <<<<<<< customers
-//     const product = new Product({
-//       name,
-//       description,
-//       category: type, // If you're using `category` in your model
-//       price: parseFloat(price),
-//       quantity: parseInt(quantity),
-//       image: `/uploads/${req.file.filename}`
-//     });
-// =======
-    if (quantity == null) {
-      return res.status(400).json({ message: 'Quantity is required' });
+    if (!updates || Object.keys(updates).length === 0) {
+      return res.status(400).json({ message: 'No updates provided' });
     }
 
-    // Change from findById to findOne({ id })
-    const product = await Product.findOne({ id });
-    if (!product) return res.status(404).json({ message: 'Product not found' });
+    const updatedProduct = await Product.findOneAndUpdate(
+      { id: id },
+      updates,
+      { new: true, runValidators: true }
+    );
 
-    // Update the product's quantity 
-    if (typeof quantity !== 'number') {
-      return res.status(400).json({ message: 'Quantity must be a number' });
-    }
-    product.quantity = quantity;
-    if (product.quantity < 0) {
-      return res.status(400).json({ message: 'Insufficient stock' });
-    }
-// >>>>>>> main
+    if (!updatedProduct) return res.status(404).json({ message: 'Product not found' });
 
-    await product.save();
-    res.status(201).json({ message: 'Product created', product });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(200).json({ message: 'Product updated successfully', product: updatedProduct });
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating product', error: error.message });
   }
 });
 
+// DELETE product by custom id field
+router.delete('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const deletedProduct = await Product.findOneAndDelete({ id: id });
+    if (!deletedProduct) return res.status(404).json({ message: 'Product not found' });
+
+    res.status(200).json({ message: 'Product deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error deleting product', error: error.message });
+  }
+});
+
+// POST create new product with image upload
+router.post('/admin/products', upload.single('image'), async (req, res) => {
+  try {
+    const { id, name, description, type, price, quantity } = req.body;
+
+    if (!quantity) return res.status(400).json({ message: 'Quantity is required' });
+
+    const existingProduct = await Product.findOne({ id });
+    if (existingProduct) {
+      return res.status(409).json({ message: 'Product with this id already exists' });
+    }
+
+    const newProduct = new Product({
+      id,
+      name,
+      description,
+      category: type,
+      price: parseFloat(price),
+      quantity: parseInt(quantity),
+      image: req.file ? `/uploads/${req.file.filename}` : null
+    });
+
+    await newProduct.save();
+    res.status(201).json({ message: 'Product added successfully', product: newProduct });
+  } catch (err) {
+    res.status(500).json({ message: 'Error adding product', error: err.message });
+  }
+});
 
 export default router;
