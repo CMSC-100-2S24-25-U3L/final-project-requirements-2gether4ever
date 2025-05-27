@@ -37,11 +37,16 @@ import productRouter from './routers/ProductRouter.js';
 import userRouter from './routers/UserRouter.js';
 import userTransactionRouter from './routers/UserTransactionRouter.js';
 
+// <<<<<<< customers
 app.use("/api/products", productRouter);
 app.use("/user", userRouter);
 app.use("/user-transaction", userTransactionRouter);
 
-// Start server
-app.listen(5000, () => {
-    console.log('Server started at port 5000');
-});
+// // Start server
+// app.listen(5000, () => {
+//     console.log('Server started at port 5000');
+// });
+// =======
+// 
+app.listen(5000, () => { console.log('Server started at port 5000')} );
+// >>>>>>> main
