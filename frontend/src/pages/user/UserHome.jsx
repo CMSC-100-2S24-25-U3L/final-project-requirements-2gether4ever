@@ -8,14 +8,24 @@ const UserHome = () => {
         <div>
           <Navbar />
           <Layout>
-            <div style={styles.container}>
-                <h1 style={styles.header}>Welcome to DA's Shop!</h1>
-                <p style={styles.subtext}>Your one-stop shop for all your favorites 💖</p>
-                <div style={styles.buttonContainer}>
-                    <Link to="/shop" style={styles.button}>🛍️ Browse Products</Link>
-                    <Link to="/shop/cart" style={styles.button}>🛒 View Cart</Link>
-                    <Link to="/shop/order-history" style={styles.button}>📦 Order History</Link>
-                </div>
+            <div>
+              <button
+                className="
+                  btn
+                  btn-
+                  
+                "
+              >
+                Shop Now
+              </button>
+            </div>
+            <div
+              className="
+                w-full
+                h-[200px]
+              "
+            >
+
             </div>
           </Layout>
         </div>

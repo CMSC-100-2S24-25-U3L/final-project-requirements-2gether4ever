@@ -1,16 +1,33 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Links } from 'react-router-dom';
 
 const Navbar = () => {
   const userType = localStorage.getItem('userType');
   const [isOpen, setIsOpen] = useState(false);
 
+  const navLink = (destination, label) => {
+    return (
+      <Link
+        to={`${destination}`}
+          className="
+          h-full 
+          flex items-center 
+          border-1 border-[#424242]
+          bg-[#2E7D32]
+          px-4 py-2 
+          hover:bg-[#a8b059] hover:scale-105 transition duration-200 ease-in-out hover:rounded"
+      >
+        {label}
+      </Link>
+    );
+  }
+
   const renderLinks = () => {
     if (userType === 'admin') {
       return (
         <>
-          <Link to="/admin">Admin Dashboard</Link>
-          <Link to="/logout">Logout</Link>
+          {navLink('/admin', 'Admin Dashboard')}
+          {navLink('/logout', 'Logout')}
         </>
       );
     }
@@ -18,22 +35,10 @@ const Navbar = () => {
     if (userType === 'Customer') {
       return (
         <>
-          <Link 
-            to="/home"
-            className="h-full flex items-center px-4 py-2 hover:bg-[#a8b059] hover:scale-105 transition duration-200 ease-in-out rounded"
-          >Home</Link>
-          <Link 
-            to="/shop/cart"
-            className="h-full flex items-center px-4 py-2 hover:bg-[#a8b059] hover:scale-105 transition duration-200 ease-in-out rounded"
-          >🛒 View Cart</Link>
-          <Link 
-            to="/shop/order-history"
-            className="h-full flex items-center px-4 py-2 hover:bg-[#a8b059] hover:scale-105 transition duration-200 ease-in-out rounded"
-          >📦 Order History</Link>
-          <Link 
-            to="/logout"
-            className="h-full flex items-center px-4 py-2 hover:bg-[#a8b059] hover:scale-105 transition duration-200 ease-in-out rounded"
-          >Logout</Link>
+          {navLink('/home', 'Home')}
+          {navLink('/shop/cart', '🛒 View Cart')}
+          {navLink('/shop/order-history', '📦 Order History')}
+          {navLink('/logout', 'Logout')}
         </>
       );
     }
@@ -44,10 +49,10 @@ const Navbar = () => {
 
 
   return (
-    <nav className="fixed h-[75px] top-0 w-full bg-[#FFF8E1] z-50 px-4 shadow-md text-black">
+    <nav className="fixed h-[75px] top-0 w-full bg-[#FFF8E1] z-50 shadow-md text-black">
       <div className="flex items-center justify-between h-full">
         <Link to="/">
-          <img src="/logo/3.png" alt="The Nature's Basket" className="h-10" />
+          <img src="/logo/3.png" alt="The Nature's Basket" className="h-[70px] mx-1" />
         </Link>
 
         {/* Hamburger button (shown on small screens) */}
@@ -88,7 +93,7 @@ const Navbar = () => {
 
       {/* Dropdown menu for mobile */}
       {isOpen && (
-        <div className="mt-4 flex flex-col space-y-2 md:hidden">
+        <div className="mt-4 flex flex-col md:hidden">
           {renderLinks()}
         </div>
       )}
