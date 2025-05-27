@@ -9,6 +9,18 @@ const router = express.Router();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// <<<<<<< backendFixes-nevi
+//     const existingProduct = await Product.findOne({ id });
+//     if (existingProduct) {
+//       return res.status(409).json({ message: 'Product with this id already exists' });
+//     }
+
+//     const newProduct = new Product({ id, name, description, type, quantity, price });
+//     await newProduct.save();
+//     res.status(201).json({ message: 'Product added successfully', product: newProduct });
+//   } catch (error) {
+//     res.status(500).json({ message: 'Error adding product', error: error.message });
+// =======
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, path.join(__dirname, '../public/uploads/'));
