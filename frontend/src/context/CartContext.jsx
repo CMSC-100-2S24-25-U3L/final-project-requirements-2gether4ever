@@ -69,8 +69,8 @@ const cartReducer = (state, action) => {
         item.product._id === action.payload.productId
           ? { ...item, quantity: action.payload.quantity }
           : item
-      );
-
+      )
+        .filter(item => item.quantity > 0);
       const newTotal = updatedItems.reduce(
         (sum, item) => sum + item.product.price * item.quantity,
         0
