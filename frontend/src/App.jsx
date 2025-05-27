@@ -1,12 +1,12 @@
-import React from 'react'; 
-import AppRoutes from './routes/AppRoutes'; 
+import { BrowserRouter } from "react-router-dom";
+import AppRoutes from "./routes/AppRoutes"; // adjust if path differs
 
 function App() {
-  return(
-    <div> 
-      <AppRoutes /> 
-    </div>
-  )
-}; 
+  return (
+    <BrowserRouter>
+      <AppRoutes />
+    </BrowserRouter>
+  );
+}
 
-export default App
+export default App;

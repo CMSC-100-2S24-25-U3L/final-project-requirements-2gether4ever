@@ -1,0 +1,148 @@
+[
+  {
+    "name": "Ampalaya",
+    "description": "Fresh bitter melon from the local farm.",
+    "category": "Gulay",
+    "price": 45,
+    "quantity": 20,
+    "image": "/uploads/ampalaya.png"
+  },
+  {
+    "name": "Talong",
+    "description": "Purple eggplants, perfect for grilling.",
+    "category": "Gulay",
+    "price": 38,
+    "quantity": 25,
+    "image": "/uploads/talong.png"
+  },
+  {
+    "name": "Sitaw",
+    "description": "Long and crisp string beans.",
+    "category": "Gulay",
+    "price": 30,
+    "quantity": 30,
+    "image": "/uploads/sitaw.png"
+  },
+  {
+    "name": "Manga",
+    "description": "Sweet ripe mangoes from Guimaras.",
+    "category": "Prutas",
+    "price": 60,
+    "quantity": 15,
+    "image": "/uploads/manga.png"
+  },
+  {
+    "name": "Saging",
+    "description": "Fresh lakatan bananas, good for snacks.",
+    "category": "Prutas",
+    "price": 40,
+    "quantity": 25,
+    "image": "/uploads/saging.png"
+  },
+  {
+    "name": "Pakwan",
+    "description": "Juicy watermelon slices, perfect for summer.",
+    "category": "Prutas",
+    "price": 35,
+    "quantity": 10,
+    "image": "/uploads/pakwan.png"
+  },
+  {
+    "name": "Manok",
+    "description": "Fresh whole chicken, ideal for tinola.",
+    "category": "Karne at itlog",
+    "price": 180,
+    "quantity": 12,
+    "image": "/uploads/manok.png"
+  },
+  {
+    "name": "Baboy",
+    "description": "Lean pork belly slices for sinigang.",
+    "category": "Karne at itlog",
+    "price": 250,
+    "quantity": 8,
+    "image": "/uploads/baboy.png"
+  },
+  {
+    "name": "Itlog",
+    "description": "Farm-fresh chicken eggs in dozen packs.",
+    "category": "Karne at itlog",
+    "price": 85,
+    "quantity": 20,
+    "image": "/uploads/itlog.png"
+  },
+  {
+    "name": "Sinandomeng",
+    "description": "Soft and aromatic white rice, ideal for everyday meals.",
+    "category": "Bigas",
+    "price": 50,
+    "quantity": 20,
+    "image": "/uploads/sinandomeng.png"
+  },
+  {
+    "name": "Dinorado",
+    "description": "Premium fragrant rice with a slightly sticky texture when cooked.",
+    "category": "Bigas",
+    "price": 60,
+    "quantity": 15,
+    "image": "/uploads/dinorado.png"
+  },
+  {
+    "name": "Brown Rice",
+    "description": "Whole grain rice rich in fiber and nutrients for a healthy diet.",
+    "category": "Bigas",
+    "price": 70,
+    "quantity": 10,
+    "image": "/uploads/brown_rice.png"
+  }, 
+  {
+   "name": "Mais",
+   "description": "Golden yellow corn harvested fresh from the field, perfect for boiling or grilling.",
+   "category": "Sakahan",
+   "price": 25,
+   "quantity": 30,
+   "image": "/uploads/mais.png"
+ },
+ {
+   "name": "Kamote",
+   "description": "Naturally sweet root crop grown in loamy soil, ideal for snacks and desserts.",
+   "category": "Sakahan",
+   "price": 20,
+   "quantity": 40,
+   "image": "/uploads/kamote.png"
+ },
+ {
+   "name": "Patatas",
+   "description": "Freshly dug native potatoes, great for stews and fries.",
+   "category": "Sakahan",
+   "price": 45,
+   "quantity": 25,
+   "image": "/uploads/patatas.png"
+ }, 
+ {
+   "name": "Organic Lettuce",
+   "description": "Crisp, pesticide-free lettuce grown in natural compost-rich soil.",
+   "category": "Organik",
+   "price": 35,
+   "quantity": 18,
+   "image": "/uploads/organic_lettuce.png"
+ },
+ {
+   "name": "Organic Tomatoes",
+   "description": "Juicy and vibrant red tomatoes grown without synthetic fertilizers.",
+   "category": "Organik",
+   "price": 50,
+   "quantity": 22,
+   "image": "/uploads/organic_tomatoes.png"
+ },
+ {
+   "name": "Organic Ginger",
+   "description": "Fresh organic luya with strong aroma, perfect for tea and cooking.",
+   "category": "Organik",
+   "price": 65,
+   "quantity": 15,
+   "image": "/uploads/organic_ginger.png"
+ }
+ 
+
+]

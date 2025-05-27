@@ -1,32 +1,39 @@
 import express from 'express';
+import multer from 'multer';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import Product from '../models/Product.js';
 
 const router = express.Router();
 
-// Add a product to the database
-// Merchant and Admin only
-router.post('/add', async (req, res) => {
-  try {
-    const { id, name, description, type, quantity, price } = req.body;
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-    // Validate required fields
-    if (!name || !type || quantity == null || price == null) {
-      return res.status(400).json({ message: 'Missing required fields: name, type, quantity, or price' });
-    }
+// <<<<<<< backendFixes-nevi
+//     const existingProduct = await Product.findOne({ id });
+//     if (existingProduct) {
+//       return res.status(409).json({ message: 'Product with this id already exists' });
+//     }
 
-    const existingProduct = await Product.findOne({ id });
-    if (existingProduct) {
-      return res.status(409).json({ message: 'Product with this id already exists' });
-    }
-
-    const newProduct = new Product({ id, name, description, type, quantity, price });
-    await newProduct.save();
-    res.status(201).json({ message: 'Product added successfully', product: newProduct });
-  } catch (error) {
-    res.status(500).json({ message: 'Error adding product', error: error.message });
+//     const newProduct = new Product({ id, name, description, type, quantity, price });
+//     await newProduct.save();
+//     res.status(201).json({ message: 'Product added successfully', product: newProduct });
+//   } catch (error) {
+//     res.status(500).json({ message: 'Error adding product', error: error.message });
+// =======
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, '../public/uploads/'));
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, uniqueSuffix + path.extname(file.originalname));
   }
 });
 
+// <<<<<<< customers
+const upload = multer({ storage: storage });
+// =======
 // Update product details
 router.put('/update/:id', async (req, res) => {
   try {
@@ -46,10 +53,17 @@ router.put('/update/:id', async (req, res) => {
     res.status(500).json({ message: 'Error updating product', error: error.message });
   }
 });
+// >>>>>>> main
 
-// Delete a product
-router.delete('/delete/:id', async (req, res) => {
+// GET all products
+router.get('/', async (req, res) => {
   try {
+// <<<<<<< customers
+//     const products = await Product.find();
+//     res.json(products);
+//   } catch (err) {
+//     res.status(500).json({ error: err.message });
+// =======
     const { id } = req.params;
 
     const deletedProduct = await Product.findOneAndDelete({ id: id });
@@ -58,29 +72,35 @@ router.delete('/delete/:id', async (req, res) => {
     res.status(200).json({ message: 'Product deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: 'Error deleting product', error: error.message });
+// >>>>>>> main
   }
 });
 
-// Get all products
-router.get('/list', async (req, res) => {
+// GET product by ID
+router.get('/:id', async (req, res) => {
   try {
-    const { sortBy, order = 'asc' } = req.query;
-    const sortOptions = {};
-    if (sortBy) sortOptions[sortBy] = order === 'asc' ? 1 : -1;
-
-    const products = await Product.find().sort(sortOptions);
-    res.status(200).json(products);
-  } catch (error) {
-    res.status(500).json({ message: 'Error fetching products', error: error.message });
+    const product = await Product.findById(req.params.id);
+    if (!product) return res.status(404).json({ error: 'Product not found' });
+    res.json(product);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
-
-// Update inventory of products
-router.put('/inventory/:id', async (req, res) => {
+// POST /admin/products - create new product with image upload
+router.post('/admin/products', upload.single('image'), async (req, res) => {
   try {
-    const { id } = req.params;
-    const { quantity } = req.body;
+    const { name, description, type, price, quantity } = req.body;
 
+// <<<<<<< customers
+//     const product = new Product({
+//       name,
+//       description,
+//       category: type, // If you're using `category` in your model
+//       price: parseFloat(price),
+//       quantity: parseInt(quantity),
+//       image: `/uploads/${req.file.filename}`
+//     });
+// =======
     if (quantity == null) {
       return res.status(400).json({ message: 'Quantity is required' });
     }
@@ -97,12 +117,14 @@ router.put('/inventory/:id', async (req, res) => {
     if (product.quantity < 0) {
       return res.status(400).json({ message: 'Insufficient stock' });
     }
+// >>>>>>> main
 
     await product.save();
-    res.status(200).json({ message: 'Inventory updated successfully', product });
-  } catch (error) {
-    res.status(500).json({ message: 'Error updating inventory', error: error.message });
+    res.status(201).json({ message: 'Product created', product });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
+
 
 export default router;
