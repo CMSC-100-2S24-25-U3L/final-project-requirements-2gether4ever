@@ -2,13 +2,7 @@ import mongoose from 'mongoose';
 
 // This defines the schema for UserTransaction
 const UserTransactionSchema = new mongoose.Schema({
-  
-  // Provides a unique transaction ID for every order
-  transactionId: { 
-    type: String, 
-    required: true, 
-    unique: true 
-  },
+  // No need for transactionId, use _id instead
 
   // References to the product being purchased
   productId: { 

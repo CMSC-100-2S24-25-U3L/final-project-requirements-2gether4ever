@@ -1,6 +1,7 @@
 import express from 'express';
 import User from '../models/User.js'; // Your User model
 import bcrypt from 'bcryptjs'; // For hashing passwords
+import jwt from 'jsonwebtoken';
 
 const router = express.Router();
 
@@ -43,6 +44,20 @@ router.post('/login', async (req, res) => {
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
 
+        const token = jwt.sign(
+            { id: user._id, userType: user.userType }, 
+            process.env.JWT_SECRET, 
+            { expiresIn: '1d' }
+            );
+
+            res.json({
+            token,
+            user: {
+                email: user.email,
+                userType: user.userType,
+            },
+            });
+
         res.json({ message: 'Login successful', user });
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -52,7 +67,7 @@ router.post('/login', async (req, res) => {
 // Get all users 
 router.get('/', async (req, res) => {
     try {
-        const users = await User.find();
+        const users = await User.find().select('-password');
         res.json(users);
     } catch (error) {
         res.status(500).json({ message: error.message });

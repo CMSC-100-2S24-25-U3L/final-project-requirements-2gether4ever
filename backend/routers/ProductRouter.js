@@ -55,8 +55,8 @@ router.put('/update/:id', async (req, res) => {
       return res.status(400).json({ message: 'No updates provided' });
     }
 
-    const updatedProduct = await Product.findOneAndUpdate(
-      { id: id },
+    const updatedProduct = await Product.findByIdAndUpdate(
+      id,
       updates,
       { new: true, runValidators: true }
     );
@@ -74,7 +74,7 @@ router.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params;
 
-    const deletedProduct = await Product.findOneAndDelete({ id: id });
+    const deletedProduct = await Product.findByIdAndDelete(id);
     if (!deletedProduct) return res.status(404).json({ message: 'Product not found' });
 
     res.status(200).json({ message: 'Product deleted successfully' });
@@ -90,7 +90,7 @@ router.post('/admin/products', upload.single('image'), async (req, res) => {
 
     if (!quantity) return res.status(400).json({ message: 'Quantity is required' });
 
-    const existingProduct = await Product.findOne({ id });
+    const existingProduct = await Product.findById(id);
     if (existingProduct) {
       return res.status(409).json({ message: 'Product with this id already exists' });
     }
@@ -98,7 +98,7 @@ router.post('/admin/products', upload.single('image'), async (req, res) => {
     console.log("Uploaded file saved as:", req.file?.filename); // ✅ moved here
 
     const newProduct = new Product({
-      id,
+      _id: id,
       name,
       description,
       category: type,
