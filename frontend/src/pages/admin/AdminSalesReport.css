@@ -1,0 +1,66 @@
+.sales-report {
+  max-width: 900px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  padding: 2rem;
+}
+
+.sales-report h2 {
+  margin-bottom: 1.5rem;
+  color: #2d572c;
+}
+
+.sales-report select {
+  padding: 0.4rem 1rem;
+  border-radius: 6px;
+  border: 1px solid #bdbdbd;
+  background: #f8f8f8;
+  font-size: 1rem;
+}
+
+.sales-report table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.5rem;
+  background: #fafafa;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+
+.sales-report th, .sales-report td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+}
+
+.sales-report th {
+  background: #e8f5e9;
+  color: #2d572c;
+  font-weight: 600;
+  border-bottom: 2px solid #c8e6c9;
+}
+
+.sales-report tr:nth-child(even) {
+  background: #f4f8f4;
+}
+
+.sales-report tr:hover {
+  background: #e0f2f1;
+}
+
+.sales-report .amount {
+  font-weight: bold;
+  color: #388e3c;
+}
+
+@media (max-width: 700px) {
+  .sales-report {
+    padding: 1rem;
+  }
+  .sales-report table, .sales-report th, .sales-report td {
+    font-size: 0.95rem;
+    padding: 0.5rem;
+  }
+}

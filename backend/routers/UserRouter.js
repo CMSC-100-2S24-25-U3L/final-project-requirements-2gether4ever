@@ -4,6 +4,7 @@ import Product from '../models/Product.js';
 import UserTransaction from '../models/UserTransaction.js';
 import bcrypt from 'bcryptjs'; // For hashing passwords
 import jwt from 'jsonwebtoken';
+import { authenticateToken } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -138,6 +139,12 @@ router.get('/admin/summary', async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
+});
+
+// Get user profile
+router.get('/profile', authenticateToken, async (req, res) => {
+  // Now you can access req.userEmail
+  res.json({ email: req.userEmail });
 });
 
 export default router;

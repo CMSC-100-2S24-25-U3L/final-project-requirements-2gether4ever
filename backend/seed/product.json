@@ -50,7 +50,7 @@
   {
     "name": "Manok",
     "description": "Fresh whole chicken, ideal for tinola.",
-    "category": "Karne at Itlog",
+    "category": "Karne at itlog",
     "price": 180,
     "quantity": 12,
     "image": "/uploads/manok.png"
@@ -58,7 +58,7 @@
   {
     "name": "Baboy",
     "description": "Lean pork belly slices for sinigang.",
-    "category": "Karne at Itlog",
+    "category": "Karne at itlog",
     "price": 250,
     "quantity": 8,
     "image": "/uploads/baboy.png"
@@ -66,7 +66,7 @@
   {
     "name": "Itlog",
     "description": "Farm-fresh chicken eggs in dozen packs.",
-    "category": "Karne at Itlog",
+    "category": "Karne at itlog",
     "price": 85,
     "quantity": 20,
     "image": "/uploads/Itlog.png"
