@@ -1,6 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import ProductList from '../../components/user/ProductList.jsx';
+import Navbar from '../../components/NavBar.jsx';
+import Layout from '../../components/Page_Paddings.jsx';
 import './ShopPage.css';
 
 const ShopPage = () => {
@@ -50,31 +52,36 @@ const ShopPage = () => {
   const goToCart = () => navigate('/shop/cart');
 
   return (
-    <div className="shop-page">
-      <div className="shop-header">
-        <h1>All Products</h1>
-        <div className="cart-widget" onClick={goToCart}>
-          <div className="cart-icon">
-            <span className="material-icons">shopping_cart</span>
-            {Array.isArray(cart.items) && cart.items.length > 0 && (
-              <span className="cart-count">
-                {cart.items.reduce((sum, item) => sum + item.quantity, 0)}
-              </span>
-            )}
-          </div>
-          {Array.isArray(cart.items) && cart.items.length > 0 && (
-            <div className="cart-preview">
-              <span>
-                {cart.items.reduce((sum, item) => sum + item.quantity, 0)} items
-              </span>
-              <span>₱{cart.total.toFixed(2)}</span>
+    <div>
+      <Navbar />
+      <Layout>
+        <div className="shop-page">
+          <div className="shop-header">
+            <h1>All Products</h1>
+            <div className="cart-widget" onClick={goToCart}>
+              <div className="cart-icon">
+                <span className="material-icons">shopping_cart</span>
+                {Array.isArray(cart.items) && cart.items.length > 0 && (
+                  <span className="cart-count">
+                    {cart.items.reduce((sum, item) => sum + item.quantity, 0)}
+                  </span>
+                )}
+              </div>
+              {Array.isArray(cart.items) && cart.items.length > 0 && (
+                <div className="cart-preview">
+                  <span>
+                    {cart.items.reduce((sum, item) => sum + item.quantity, 0)} items
+                  </span>
+                  <span>₱{cart.total.toFixed(2)}</span>
+                </div>
+              )}
             </div>
-          )}
+          <ProductList addToCart={addToCart} />
         </div>
       </div>
-
-      <ProductList addToCart={addToCart} />
+      </Layout>
     </div>
+
   );
 };
 

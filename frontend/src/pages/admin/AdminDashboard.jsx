@@ -42,56 +42,48 @@ const AdminDashboard = () => {
     return <Navigate to="/login" />;
   }
 
-  const handleLogout = () => {
-    localStorage.removeItem('authToken');
-    setIsLoggedIn(false);
-  };
-
   return (
     <div>
-      <Navbar />
-      <Layout>
-        <div className="admin-dashboard">
-          <header className="admin-header">
-            <div>
-              <h1>Welcome, Admin!</h1>
-              <p className="admin-subtitle">Current Statistics:</p>
-            </div>
-            <button onClick={handleLogout} className="logout-btn">Logout</button>
-          </header>
-
-          <div className="summary-grid">
-            <div className="summary-card">
-              <h3>Total Users</h3>
-              <div className="amount">{summary.users}</div>
-            </div>
-            <div className="summary-card">
-              <h3>Total Products</h3>
-              <div className="amount">{summary.products}</div>
-            </div>
-            <div className="summary-card">
-              <h3>Total Orders</h3>
-              <div className="amount">{summary.orders}</div>
-            </div>
-            <div className="summary-card">
-              <h3>Total Sales</h3>
-              <div className="amount">₱{summary.sales}</div>
-            </div>
+      <div className="admin-dashboard">
+        <header className="admin-header">
+          <div>
+            <h1>Welcome, Admin!</h1>
+            <p className="admin-subtitle">Current Statistics:</p>
           </div>
+          <Link to='/logout'><button className="logout-btn">Logout</button></Link>
+        </header>
 
-          <div className="quick-links" style={{ marginBottom: '2rem' }}>
-            <h2>Navigation</h2>
-            <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
-              <Link to="/admin/users" className="btn btn-primary">User Management</Link>
-              <Link to="/admin/products" className="btn btn-primary">Product Listings</Link>
-              <Link to="/admin/orders" className="btn btn-primary">Order Management</Link>
-              <Link to="/admin/sales-report" className="btn btn-primary">Sales Reports</Link>
-            </div>
+        <div className="summary-grid">
+          <div className="summary-card">
+            <h3>Total Users</h3>
+            <div className="amount">{summary.users}</div>
           </div>
-
-         
+          <div className="summary-card">
+            <h3>Total Products</h3>
+            <div className="amount">{summary.products}</div>
+          </div>
+          <div className="summary-card">
+            <h3>Total Orders</h3>
+            <div className="amount">{summary.orders}</div>
+          </div>
+          <div className="summary-card">
+            <h3>Total Sales</h3>
+            <div className="amount">₱{summary.sales}</div>
+          </div>
         </div>
-      </Layout>
+
+        <div className="quick-links" style={{ marginBottom: '2rem' }}>
+          <h2>Navigation</h2>
+          <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
+            <Link to="/admin/users" className="btn btn-primary">User Management</Link>
+            <Link to="/admin/products" className="btn btn-primary">Product Listings</Link>
+            <Link to="/admin/orders" className="btn btn-primary">Order Management</Link>
+            <Link to="/admin/sales-report" className="btn btn-primary">Sales Reports</Link>
+          </div>
+        </div>
+
+        
+      </div>
     </div>
   );
 };

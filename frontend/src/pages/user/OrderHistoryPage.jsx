@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import OrderCard from '../../components/user/OrderCard';
 import './OrderHistoryPage.css';
+import Navbar from '../../components/NavBar';
+import Layout from '../../components/Page_Paddings';
 
 const TABS = [
   { label: 'All', value: 'all' },
@@ -99,43 +101,48 @@ const OrderHistoryPage = () => {
   };
 
   return (
-    <div className="order-history">
-      <h1>Your Orders</h1>
-      <div className="order-tabs">
-        {TABS.map(t => (
-          <button
-            key={t.value}
-            onClick={() => setTab(t.value)}
-            className={`order-tab-btn${tab === t.value ? ' selected' : ''}`}
-          >
-            {t.label}
-            <span className="order-tab-count">{counts[t.value]}</span>
-          </button>
-        ))}
-      </div>
-      {loading ? (
-        <p>Loading order history...</p>
-      ) : orders.length === 0 ? (
-        <div className="order-history-empty">
-          <span>🗂️</span>
-          <p style={{ marginTop: 8 }}>You have no {statusLabels[tab]}.</p>
-        </div>
-      ) : (
-        <ErrorBoundary>
-          <div className="order-cards-container">
-            {orders.map(order => (
-              <OrderCard
-                key={order._id}
-                order={order}
-                showCancel={tab === 'pending'}
-                onCancel={() => handleCancelOrder(order._id)}
-                canceling={canceling === order._id}
-              />
+    <>
+      <Navbar/>
+      <Layout>
+        <div className="order-history">
+          <h1>Your Orders</h1>
+          <div className="order-tabs">
+            {TABS.map(t => (
+              <button
+                key={t.value}
+                onClick={() => setTab(t.value)}
+                className={`order-tab-btn${tab === t.value ? ' selected' : ''}`}
+              >
+                {t.label}
+                <span className="order-tab-count">{counts[t.value]}</span>
+              </button>
             ))}
           </div>
-        </ErrorBoundary>
-      )}
-    </div>
+          {loading ? (
+            <p>Loading order history...</p>
+          ) : orders.length === 0 ? (
+            <div className="order-history-empty">
+              <span>🗂️</span>
+              <p style={{ marginTop: 8 }}>You have no {statusLabels[tab]}.</p>
+            </div>
+          ) : (
+            <ErrorBoundary>
+              <div className="order-cards-container">
+                {orders.map(order => (
+                  <OrderCard
+                    key={order._id}
+                    order={order}
+                    showCancel={tab === 'pending'}
+                    onCancel={() => handleCancelOrder(order._id)}
+                    canceling={canceling === order._id}
+                  />
+                ))}
+              </div>
+            </ErrorBoundary>
+          )}
+        </div>
+      </Layout>
+    </>
   );
 };
 

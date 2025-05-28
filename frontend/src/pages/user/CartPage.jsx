@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Cart from '../../components/user/Cart.jsx';
+import Navbar from '../../components/NavBar.jsx';
+import Layout from '../../components/Page_Paddings.jsx';
 
 const CartPage = () => {
   const [cart, setCart] = useState({ items: [], total: 0 });
@@ -57,12 +59,17 @@ const CartPage = () => {
   };
 
   return (
-    <Cart
-      cartProp={cart}
-      updateQuantityProp={updateQuantity}
-      removeFromCartProp={removeFromCart}
-      clearCartProp={clearCart}
-    />
+    <>
+      <Navbar />
+      <Layout>
+        <Cart
+          cartProp={cart}
+          updateQuantityProp={updateQuantity}
+          removeFromCartProp={removeFromCart}
+          clearCartProp={clearCart}
+        />
+      </Layout>
+    </>
   );
 };
 

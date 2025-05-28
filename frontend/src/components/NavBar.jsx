@@ -25,6 +25,10 @@ const Navbar = () => {
       return (
         <>
           {navLink('/admin', 'Admin Dashboard')}
+          {navLink('/admin/users', 'User Management')}
+          {navLink('/admin/products', 'Product Listings')}
+          {navLink('/admin/orders', 'Order Management')}
+          {navLink('/admin/sales-report', 'Sales Reports')}
           {navLink('/logout', 'Logout')}
         </>
       );
