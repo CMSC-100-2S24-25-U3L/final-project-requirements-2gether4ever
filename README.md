@@ -19,6 +19,11 @@ Sales Reports
 Dashboard
  An admin dashboard for the DA that includes account management, product listing, order fulfillment, and sales reporting.
 
+ # How to Run
+ 1. npm run dev
+ 2. npm run seed
+ 3. npm run frontend-dev
+
 ## Technologies Used
 - Frontend: React.js
 - Backend: Node.js, Express.js
