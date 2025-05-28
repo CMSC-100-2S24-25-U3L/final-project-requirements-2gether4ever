@@ -1,7 +1,7 @@
 import needle from 'needle';
 
 const BASE_URL = 'http://localhost:5000/user-transaction/order';
-const VALID_PRODUCT_ID = '6835bae6be611a405d77b6f1';
+const VALID_PRODUCT_ID = '6836425a0ba8a100fb579ec4';
 const TEST_EMAIL = 'nbulatao9@gmail.com';
 
 // 1. Test successful order
