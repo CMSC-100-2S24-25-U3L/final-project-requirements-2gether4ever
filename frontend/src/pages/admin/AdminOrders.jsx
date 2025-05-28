@@ -1,4 +1,4 @@
-// import Navbar from '../../components/NavBar';
+import Navbar from '../../components/NavBar';
 import { useState, useEffect } from 'react';
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
@@ -73,75 +73,78 @@ const AdminOrders = () => {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div className="order-management user-management-admin full-page-admin">
-      <h2>User Transactions</h2>
-      <div className="filter-controls" style={{ marginBottom: '1rem' }}>
-        <label>Filter by status:</label>
-        <select value={filter} onChange={(e) => setFilter(e.target.value)}>
-          <option value="all">All Orders</option>
-          <option value="pending">Pending</option>
-          <option value="completed">Completed</option>
-          <option value="canceled">Canceled</option>
-        </select>
-      </div>
-      <div className="table-responsive">
-        <table className="users-table">
-          <thead>
-            <tr>
-              <th>Order ID</th>
-              <th>User Email</th>
-              <th>Products</th>
-              <th>Total</th>
-              <th>Date Ordered</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredOrders.map(order => (
-              <tr key={order._id}>
-                <td>{order._id?.substring(0, 8) || 'N/A'}...</td>
-                <td>{order.email || order.userEmail || 'N/A'}</td>
-                <td>
-                  {order.productId?.name || 'N/A'} x{order.orderQuantity ?? 1}
-                </td>
-                <td>
-                  ₱{order.productId && order.productId.price && order.orderQuantity
-                    ? (order.productId.price * order.orderQuantity).toFixed(2)
-                    : '0.00'}
-                </td>
-                <td>{order.dateOrdered ? new Date(order.dateOrdered).toLocaleDateString() : 'N/A'}</td>
-                <td>{getStatusText(order.orderStatus)}</td>
-                <td>
-                  {order.orderStatus === 0 && (
-                    <>
-                      <button
-                        className="btn btn-primary"
-                        onClick={() => updateOrderStatus(order._id, 1)}
-                      >
-                        Approve
-                      </button>
-                      <button
-                        className="btn delete-btn"
-                        onClick={() => updateOrderStatus(order._id, 2)}
-                      >
-                        Cancel
-                      </button>
-                    </>
-                  )}
-                  {order.orderStatus === 1 && (
-                    <span className="completed-badge">Completed</span>
-                  )}
-                  {order.orderStatus === 2 && (
-                    <span className="canceled-badge">Canceled</span>
-                  )}
-                </td>
+    <>
+      <Navbar />
+      <div className="order-management user-management-admin full-page-admin">
+        <h2>User Transactions</h2>
+        <div className="filter-controls" style={{ marginBottom: '1rem' }}>
+          <label>Filter by status:</label>
+          <select value={filter} onChange={(e) => setFilter(e.target.value)}>
+            <option value="all">All Orders</option>
+            <option value="pending">Pending</option>
+            <option value="completed">Completed</option>
+            <option value="canceled">Canceled</option>
+          </select>
+        </div>
+        <div className="table-responsive">
+          <table className="users-table">
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>User Email</th>
+                <th>Products</th>
+                <th>Total</th>
+                <th>Date Ordered</th>
+                <th>Status</th>
+                <th>Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {filteredOrders.map(order => (
+                <tr key={order._id}>
+                  <td>{order._id?.substring(0, 8) || 'N/A'}...</td>
+                  <td>{order.email || order.userEmail || 'N/A'}</td>
+                  <td>
+                    {order.productId?.name || 'N/A'} x{order.orderQuantity ?? 1}
+                  </td>
+                  <td>
+                    ₱{order.productId && order.productId.price && order.orderQuantity
+                      ? (order.productId.price * order.orderQuantity).toFixed(2)
+                      : '0.00'}
+                  </td>
+                  <td>{order.dateOrdered ? new Date(order.dateOrdered).toLocaleDateString() : 'N/A'}</td>
+                  <td>{getStatusText(order.orderStatus)}</td>
+                  <td>
+                    {order.orderStatus === 0 && (
+                      <>
+                        <button
+                          className="btn btn-primary"
+                          onClick={() => updateOrderStatus(order._id, 1)}
+                        >
+                          Approve
+                        </button>
+                        <button
+                          className="btn delete-btn"
+                          onClick={() => updateOrderStatus(order._id, 2)}
+                        >
+                          Cancel
+                        </button>
+                      </>
+                    )}
+                    {order.orderStatus === 1 && (
+                      <span className="completed-badge">Completed</span>
+                    )}
+                    {order.orderStatus === 2 && (
+                      <span className="canceled-badge">Canceled</span>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
