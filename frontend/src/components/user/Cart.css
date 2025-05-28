@@ -25,10 +25,10 @@ body {
 .cart-container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 2rem 3rem;
+  padding: 2rem;
   display: grid;
   grid-template-columns: 1fr 380px;
-  gap: 3rem;
+  gap: 2rem;
   align-items: start;
   min-height: 100vh;
 }
@@ -37,9 +37,9 @@ body {
 @media (min-width: 1200px) {
   .cart-container {
     max-width: 1600px;
-    padding: 3rem 4rem;
+    padding: 3rem 1rem;
     grid-template-columns: 1fr 420px;
-    gap: 4rem;
+    gap: 2rem;
   }
 }
 
@@ -47,7 +47,7 @@ body {
 @media (min-width: 1400px) {
   .cart-container {
     max-width: 1800px;
-    padding: 3rem 6rem;
+    padding: 3rem 5rem;
     grid-template-columns: 1fr 450px;
     gap: 5rem;
   }
