@@ -16,7 +16,7 @@ const Login = () => {
     try {
       const user = await loginUser(form);
 
-      const userType = user.userType;
+      const userType = user.userType?.toLowerCase();
       if (userType === 'admin') navigate('/admin');
       else navigate('/home');
     } catch (err) {

@@ -10,7 +10,7 @@ const Redirector = () => {
 
     if (user?.userType === 'Customer') {
       navigate('/home');
-    } else if (user?.userType === 'Admin') {
+    } else if (user?.userType === 'Admin' || user?.userType === 'admin') {
       navigate('/admin');
     } else {
       navigate('/login');

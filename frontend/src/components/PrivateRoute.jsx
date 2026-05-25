@@ -11,7 +11,10 @@ const PrivateRoute = ({ children, allowedRoles }) => {
 
   console.log("User: ", user)
 
-  if (allowedRoles && !allowedRoles.includes(user.userType)) {
+  const userRole = user.userType?.toLowerCase();
+  const hasRole = allowedRoles?.some(role => role.toLowerCase() === userRole);
+
+  if (allowedRoles && !hasRole) {
     return <Navigate to="/unauthorized" />;
   }
 

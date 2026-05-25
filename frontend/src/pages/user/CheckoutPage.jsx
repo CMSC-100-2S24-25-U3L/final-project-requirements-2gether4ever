@@ -26,18 +26,33 @@ const CheckoutPage = () => {
     setLoading(true);
 
     try {
+      if (!cart.items || cart.items.length === 0) {
+        setError('Your cart is empty');
+        setLoading(false);
+        return;
+      }
+
       // Loop through each cart item and send an order
       for (const item of cart.items) {
+        const prodId = item.product?._id || item.product || item._id;
+        if (!prodId || typeof prodId === 'object' && !prodId._id) {
+          setError('Invalid product details in cart. Please clear your cart and add the items again.');
+          setLoading(false);
+          return;
+        }
+
+        const finalProdId = typeof prodId === 'object' ? prodId._id : prodId;
+
         //testing purposes
         console.log('Placing order:', {
-          productId: item.product?._id || item._id,
+          productId: finalProdId,
           orderQuantity: item.quantity,
           email: form.email,
         });
         await axios.post(
           `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/user-transaction/order`,
           {
-            productId: item.product?._id || item._id, // adjust based on your cart structure
+            productId: finalProdId,
             orderQuantity: item.quantity,
             email: form.email,
           }
@@ -46,7 +61,8 @@ const CheckoutPage = () => {
       localStorage.removeItem('cart');
       navigate('/shop/confirmation', { state: { ...form, cart } });
     } catch (err) {
-      setError('Order failed. Please try again.');
+      const serverMessage = err.response?.data?.message || err.response?.data?.error || err.message;
+      setError(`Order failed: ${serverMessage}`);
       console.error('Order error:', err);
     } finally {
       setLoading(false);
