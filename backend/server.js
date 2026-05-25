@@ -15,8 +15,21 @@ const __dirname = path.dirname(__filename);
 // Instantiate the server
 const app = express();
 
+const allowedOrigins = [
+    'http://localhost:5173',
+    'https://final-project-requirements-2gether4.vercel.app',
+    'https://final-project-requirements-2gether4ever-3eo3h0cvv.vercel.app',
+];
+
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: function (origin, callback) {
+        // Allow requests with no origin (e.g. mobile apps, curl)
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
     credentials: true,
 }));
